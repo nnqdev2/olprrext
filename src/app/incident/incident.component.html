@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+    <head>
+        <title>LUST Incident Reporting Form</title>
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+	    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    </head>
+
+    <body>
+
+
+
+        <!-- table lustReportingTable  -->
+        <!-- <table id="lustReportingTable"> -->
+            <div class="container-fluid">   
+                <div class="row">
+                    <h1 class="display-5 text-left m-4">LUST Incident Reporting Form</h1>
+                </div>
+                <div class="container">
+                    <p class="text-left">Notice (6/23/17): The OLPRR reporting tool is offline for maintenance. You have reached an alternative webpage to submit incident report information. Reporters will continue to receive an email confirming receipt and providing the incident log number. During this period DEQ responses may take up to 3 business days to complete. Please email hotinfo@deq.state.or.us with questions or problems, or call 503-229-5263 and ask to speak with the Heating Oil Tank or Leaking Underground Storage Tank Duty Officer. We apologize for any inconvenience or delays you may experience.</p>                    
+                    <p class="text-left font-weight-bold pl-1" style="background-color: darkSeaGreen">Incident Information</p>
+                 
+                     <!-- Form incidentForm begins -->
+                     <form [formGroup]="incidentForm" class="form" role="form" autocomplete="off" method="POST"  (ngSubmit)="createIncident()">
+                        <!-- Date Released Discovered -->
+                        <div class="form-group col-md-2 mt-2">                               
+                            <label for="dateReceived">Date Reported</label>
+                            <input formControlName="dateReceived" type="text" class="form-control" id="dateReceived"  />
+                        </div>
+                        <div class="input-group">
+                            <label class="control-label col-12" for="dateReleaseDiscovered">Date Release Discovered</label>
+                            <input class="form-control required col-md-4" 
+                                name="dp" formControlName="discoveryDate" id="dateReleaseDiscovered" ngbDatepicker #d="ngbDatepicker">
+                            <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+                                <img src="./assets/images/calendar.png" />
+                            </button>
+                            </div>
+                        </div>
+                        <!-- /Date Released Discovered -->
+                        <!-- SiteType FacilityId -->
+                        <div class="form-row mt-4"> 
+                            <!-- Site Type -->
+                            <div class="form-group required col-md-2 mt-2">
+                                <label class="control-label" for="releaseType">Site Type</label>
+                                <select class="form-control" id="releaseType" formControlName="releaseType" (click)="setShowContactInvoice()" >
+                                    <option value=""></option>
+                                    <option *ngFor="let siteType of siteTypes" 
+                                            [value]="siteType.siteTypeCode" >
+                                            {{siteType.siteType}}
+                                    </option>
+                                </select>    
+                                <app-show-errors [control]="incidentForm.controls.releaseType"></app-show-errors>                            
+                            </div>
+                            <!-- /Site Type -->
+                            <!-- DEQ UST Facility ID  -->
+                            <div *ngIf="showInvoiceContact; then showFacility"></div>
+                            <ng-template #showFacility> 
+
+
+                                <div class="form-group col-md-4 mt-2"   >
+                                    <label class="control-label" for="facilityId">DEQ UST Facility ID</label>
+                                    <input type="text" class="form-control" id="facilityId" formControlName="facilityId"/>
+                                </div>
+                            </ng-template>
+
+
+
+                            <!-- /DEQ UST Facility ID -->
+                        </div>
+                        <!-- /SiteType FacilityId -->
+                        <!-- Site Name, County -->
+                        <div class="form-row mt-4">
+                            <div class="form-group required col-sm-8 pb-3">
+                                <label class="control-label" for="siteName">Site Name</label>
+                                <input type="text" class="form-control" id="siteName" formControlName="siteName" />
+                                <app-show-errors [control]="incidentForm.controls.siteName"></app-show-errors>
+                            </div>
+                            <div class="form-group required col-sm-4 pb-3">
+                                <label  class="control-label" for="siteCounty">Site County</label>
+                                <div class="input-group">
+                                    <select class="form-control" id="siteCounty" formControlName="siteCounty" >
+                                        <option selected="selected" value=""></option>
+                                        <option *ngFor="let county of counties" 
+                                        [value]="county.countyCode" >
+                                        {{county.countyName}}
+                                        </option>
+                                    </select>                                    
+                                </div>
+                                <app-show-errors [control]="incidentForm.controls.siteCounty"></app-show-errors>
+                            </div>                        
+                        </div>
+                        <!-- /Site Name, County -->
+                        <!-- Street number, quadrant, street name, street type -->
+                        <div class="form-row mt-4">
+                            <div class="form-group required col-md-3 pb-3">
+                                <label class="control-label" for="streetNbr">Site Street Number</label>
+                                <input type="text" class="form-control" id="streetNbr" formControlName="streetNbr" />
+                                <app-show-errors [control]="incidentForm.controls.streetNbr"></app-show-errors>
+                            </div>
+                            <div class="form-group required col-md-3 pb-3">
+                                <label  class="control-label" for="streetQuad">Quadrant</label>
+                                <div class="input-group">
+                                    <select class="form-control" id="streetQuad" formControlName="streetQuad">
+                                            <option selected="selected" value=""></option>
+                                            <option *ngFor="let quadrant of quadrants" 
+                                            [value]="quadrant.quadrant" >
+                                            {{quadrant.quadrant}}
+                                            </option>
+                                    </select>                                    
+                                </div>
+                                <app-show-errors [control]="incidentForm.controls.streetQuad"></app-show-errors>
+                            </div> 
+                            <div class="form-group required col-md-3 pb-3">
+                                    <label class="control-label" for="streetName">Site Street Name </label>
+                                    <input type="text" class="form-control" id="streetName"  formControlName="streetName"/>
+                                    <app-show-errors [control]="incidentForm.controls.streetName"></app-show-errors>
+                                </div>
+                                <div class="form-group required col-md-3 pb-3">
+                                    <label  class="control-label" for="streetType">Site Street Type</label>
+                                    <div class="input-group">
+                                        <select class="form-control" id="streetType" formControlName="streetType" >
+                                                <option selected="selected" value=""></option>
+                                                <option *ngFor="let streetType of streetTypes" 
+                                                [value]="streetType.streetType" >
+                                                {{streetType.streetType}}
+                                                </option>
+                                        </select>                                        
+                                    </div>
+                                    <app-show-errors [control]="incidentForm.controls.streetType"></app-show-errors>
+                                </div>                        
+                        </div>
+                        <!-- /Street number, quadrant, street name, street type  -->
+                        <!-- city, zip, phone -->
+                        <div class="form-row mt-4">
+                                <div class="form-group required col-md-4 pb-3">
+                                    <label class="control-label" for="siteCity">Site City</label>
+                                    <input type="text" class="form-control" id="siteCity" formControlName="siteCity" />
+                                    <app-show-errors [control]="incidentForm.controls.siteCity"></app-show-errors>
+                                </div>
+                                <div class="form-group required col-md-4 pb-3">
+                                    <label class="control-label" for="siteZipcode">Site Zip Code</label>
+                                    <input type="text" class="form-control" id="siteZipcode" formControlName="siteZipcode" />
+                                    <app-show-errors [control]="incidentForm.controls.siteZipcode"></app-show-errors>
+                                </div>
+                                <div class="form-group col-md-4 pb-3">
+                                    <label for="sitePhone">Site Phone </label>
+                                    <input type="text" class="form-control" id="sitePhone"  formControlName="sitePhone"/>
+                                </div>
+                            </div>
+                            <!-- /city, zip, phone  -->
+    
+                            <!-- Reported By, Phone, Company -->
+                            <div class="form-row mt-4">
+                                <div class="form-group required col-md-4 pb-3">
+                                    <label class="control-label" for="reportedBy">Reported By</label>
+                                    <input type="text" class="form-control" id="reportedBy" formControlName="reportedBy" />
+                                    <app-show-errors [control]="incidentForm.controls.reportedBy"></app-show-errors>
+                                </div>
+                                <div class="form-group required col-md-4 pb-3">
+                                    <label class="control-label" for="reportedByPhone">Reported By Phone</label>
+                                    <input type="text" class="form-control" id="reportedByPhone" formControlName="reportedByPhone" />
+                                    <app-show-errors [control]="incidentForm.controls.reportedByPhone"></app-show-errors>
+                                </div>
+                                <div class="form-group required col-md-4 pb-3">
+                                    <label class="control-label" for="company">Company</label>
+                                    <input type="text" class="form-control" id="company" formControlName="company" />
+                                    <app-show-errors [control]="incidentForm.controls.company"></app-show-errors>
+                                </div>
+                            </div>
+                            <!-- /Reported By, Phone, Company  -->
+                            <!-- Reported By Email -->
+                            <div class="form-row mt-4"> 
+                                <div class="form-group required col-md-4 pb-3"   >
+                                    <label class="control-label" for="reportedByEmail">Reported By Email</label>
+                                    <input type="text" class="form-control" id="reportedByEmail"  formControlName="reportedByEmail"/>
+                                    <app-show-errors [control]="incidentForm.controls.reportedByEmail"></app-show-errors>
+                                </div>
+                                <div class="form-group required col-md-8 pb-3 pt-5" >
+                                    *This information is required to receive a submission confirmation email.
+                                </div>
+                            </div>
+                            <!-- /Reported By Email -->
+
+
+
+                            <!-- Responsible Party -->
+                            <p class="text-left font-weight-bold pl-1" style="background-color: darkSeaGreen">Responsible Party</p>
+                        
+                            
+                            <div class="form-row mt-4">
+                                <div class="form-group required col-md-6 pb-3">
+                                    <label class="control-label" for="rpFirstName">Responsible Party First Name</label>
+                                    <input type="text" class="form-control" id="rpFirstName" formControlName="rpFirstName" />
+                                    <app-show-errors [control]="incidentForm.controls.rpFirstName"></app-show-errors>
+                                </div>
+                                <div class="form-group required col-md-6 pb-3">
+                                    <label class="control-label" for="rpLastName">Responsible Party Last Name</label>
+                                    <input type="text" class="form-control" id="rpLastName" formControlName="rpLastName" />
+                                    <app-show-errors [control]="incidentForm.controls.rpLastName"></app-show-errors>
+                                </div>
+                            </div>
+                            <div class="form-row mt-4">
+                                <div class="form-group required col-md-12 pb-3">
+                                    <label class="control-label" for="rpOrganization">Organization</label>
+                                    <input type="text" class="form-control" id="rpOrganization" formControlName="rpOrganization" />
+                                    <app-show-errors [control]="incidentForm.controls.rpOrganization"></app-show-errors>
+                                </div>
+                            </div>
+                            <div class="form-row mt-4">
+                                <div class="form-group required col-md-6 pb-3">
+                                    <label class="control-label" for="rpAddress">Address</label>
+                                    <input type="text" class="form-control" id="rpAddress" formControlName="rpAddress"  />
+                                    <app-show-errors [control]="incidentForm.controls.rpAddress"></app-show-errors>
+                                </div>
+                                <div class="form-group required col-md-6 pb-3">
+                                    <label class="control-label" for="rpPhone">Phone</label>
+                                    <input type="text" class="form-control" id="rpPhone" formControlName="rpPhone" />
+                                    <app-show-errors [control]="incidentForm.controls.rpPhone"></app-show-errors>
+                                </div>
+                            </div>
+                            <div class="form-row mt-4">
+                                <div class="form-group required col-md-6 pb-3">
+                                    <label class="control-label" for="rpCity">City</label>
+                                    <input type="text" class="form-control" id="rpCity" formControlName="rpCity"  />
+                                    <app-show-errors [control]="incidentForm.controls.rpCity"></app-show-errors>
+                                </div>
+                                <div class="form-group col-md-6 pb-3">
+                                    <label for="rpEmail">Email</label>
+                                    <input type="text" class="form-control" id="rpEmail" formControlName="rpEmail"  />
+                                </div>
+                            </div>
+                            <div class="form-row mt-4">
+                                <div class="form-group required col-md-12 pb-3">
+                                    <label  class="control-label" for="rpState">State</label>
+                                    <div class="input-group">
+                                        <select class="form-control" id="rpState"  formControlName="rpState" >
+                                                <option selected="selected" value=""></option>
+                                                <option selected="selected" value=""></option>
+                                                <option *ngFor="let state of states" 
+                                                [value]="state.stateCode" >
+                                                {{state.stateName}}
+                                                </option>                                               
+                                        </select>
+                                    </div>
+                                    <app-show-errors [control]="incidentForm.controls.rpState"></app-show-errors>
+                                </div> 
+                                <div class="form-row mt-4">
+                                    <div class="form-group required col-xs-12 pb-3">
+                                        <label class="control-label" for="rpZipcode">Zip Code</label>
+                                        <input type="text" class="form-control" id="rpZipcode" formControlName="rpZipcode"/>
+                                        <app-show-errors [control]="incidentForm.controls.rpZipcode"></app-show-errors>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /Responsible Party  -->
+
+                            <!-- Invoice Contact -->
+                            <div *ngIf="showInvoiceContact; then showContactInvoice"></div>
+                            <ng-template #showContactInvoice> 
+                            <p class=" text-left font-weight-bold pl-1" style="background-color: darkSeaGreen"  >Invoice Contact</p>
+                        
+                            <div class="form-group row">
+                                <div class="col-sm-4">
+                                    <button type="button"   class=" btn btn-md btn-block" (click)="copyResponsibleToInvoice(incidentForm)">Copy Responsible Party information</button>
+                                </div>
+                            </div>
+                       
+                       
+                            <div class="form-row mt-4">
+                                <div class="form-group required col-md-6 pb-3">
+                                    <label class="control-label" for="icFirstName">First Name</label>
+                                    <input type="text" class="form-control" id="icFirstName" formControlName="icFirstName" />
+                                    <app-show-errors [control]="incidentForm.controls.icFirstName"></app-show-errors>
+                                </div>
+                                <div class="form-group required col-md-6 pb-3">
+                                    <label class="control-label" for="icLastName">Last Name</label>
+                                    <input type="text" class="form-control" id="icLastName" formControlName="icLastName" />
+                                    <app-show-errors [control]="incidentForm.controls.icLastName"></app-show-errors>
+                                </div>
+                            </div>
+                            <div class="form-row mt-4">
+                                <div class="form-group required col-md-12 pb-3">
+                                    <label class="control-label" for="icOrganization">Organization</label>
+                                    <input type="text" class="form-control" id="icOrganization" formControlName="icOrganization" />
+                                    <app-show-errors [control]="incidentForm.controls.icOrganization"></app-show-errors>
+                                </div>
+                            </div>
+                            <div class="form-row mt-4">
+                                <div class="form-group required col-md-6 pb-3">
+                                    <label class="control-label" for="icAddress">Address</label>
+                                    <input type="text" class="form-control" id="icAddress" formControlName="icAddress"  />
+                                    <app-show-errors [control]="incidentForm.controls.rpAddress"></app-show-errors>
+                                </div>
+                                <div class="form-group required col-md-6 pb-3">
+                                    <label class="control-label" for="rpPhone">Phone</label>
+                                    <input type="text" class="form-control" id="rpPhone" formControlName="rpPhone" />
+                                    <app-show-errors [control]="incidentForm.controls.icAddress"></app-show-errors>
+                                </div>
+                            </div>
+                            <div class="form-row mt-4">
+                                <div class="form-group required col-md-6 pb-3">
+                                    <label class="control-label" for="icCity">City</label>
+                                    <input type="text" class="form-control" id="icCity" formControlName="icCity"  />
+                                    <app-show-errors [control]="incidentForm.controls.icCity"></app-show-errors>
+                                </div>
+                                <div class="form-group col-md-6 pb-3">
+                                    <label for="icEmail">Email</label>
+                                    <input type="text" class="form-control" id="icEmail" formControlName="icEmail"  />
+                                </div>
+                            </div>
+                            <div class="form-row mt-4">
+                                <div class="form-group required col-md-12 pb-3">
+                                    <label  class="control-label" for="icState">State</label>
+                                    <div class="input-group">
+                                        <select class="form-control" id="icState"  formControlName="icState" >
+                                                <option selected="selected" value=""></option>
+                                                <option *ngFor="let state of states" 
+                                                [value]="state.stateCode" >
+                                                {{state.stateName}}
+                                                </option>                                               
+                                        </select>
+                                    </div>
+                                    <app-show-errors [control]="incidentForm.controls.icState"></app-show-errors>
+                                </div> 
+                                <div class="form-row mt-4">
+                                    <div class="form-group required col-xs-12 pb-3">
+                                        <label class="control-label" for="icZipcode">Zip Code</label>
+                                        <input type="text" class="form-control" id="icZipcode" formControlName="icZipcode"/>
+                                        <app-show-errors [control]="incidentForm.controls.icZipcode"></app-show-errors>
+                                    </div>
+                                </div>
+                            </div>
+                            </ng-template>
+                            <!-- /Invoice Contact  -->
+
+
+                            <p class="text-left font-weight-bold pl-1" style="background-color: darkSeaGreen">Site Assessment</p>
+                            <!-- site assessment -->
+                            <div class="form-row mt-4">
+                                <div class="form-group required col-md-3 pb-3">
+                                    <label  class="control-label" for="confirmationCode">Confirmation</label>
+                                    <div class="input-group">
+                                        <select class="form-control" id="confirmationCode"  formControlName="confirmationCode">
+                                                <option selected="selected" value=""></option>
+                                                <option *ngFor="let confirmationType of confirmationTypes" 
+                                                [value]="confirmationType.confirmationCode" >
+                                                {{confirmationType.confirmationDescription}}
+                                                </option>     
+                                            </select>  
+                                    </div>
+                                    <app-show-errors [control]="incidentForm.controls.confirmationCode"></app-show-errors>
+                                </div> 
+                                <div class="form-group required col-md-3 pb-3">
+                                    <label  class="control-label" for="discoveryCode">Discovery</label>
+                                    <div class="input-group">
+                                        <select class="form-control" id="discoveryCode" formControlName="discoveryCode" >
+                                                <option selected="selected" value=""></option>
+                                                <option *ngFor="let discoveryType of discoveryTypes" 
+                                                [value]="discoveryType.discoveryCode" >
+                                                {{discoveryType.discoveryDescription}}
+                                                </option>     
+                                            </select>  
+                                    </div>
+                                    <app-show-errors [control]="incidentForm.controls.discoveryCode"></app-show-errors>
+                                </div>   
+                                <div class="form-group required col-md-3 pb-3">
+                                    <label  class="control-label" for="releaseCauseCode">Cause</label>
+                                    <div class="input-group">
+                                        <select class="form-control" id="releaseCauseCode" formControlName="causeCode">
+                                                <option selected="selected" value=""></option>
+                                                <option *ngFor="let releaseCauseType of releaseCauseTypes" 
+                                                [value]="releaseCauseType.releaseCauseCode" >
+                                                {{releaseCauseType.releaseCauseDescription}}
+                                                </option>     
+                                            </select>  
+                                    </div>
+                                    <app-show-errors [control]="incidentForm.controls.causeCode"></app-show-errors>
+                                </div>    
+                                <div class="form-group required col-md-3 pb-3">
+                                    <label  class="control-label" for="sourceId">Source</label>
+                                    <div class="input-group">
+                                        <select class="form-control" id="sourceId"  formControlName="sourceId">
+                                                <option selected="selected" value=""></option>
+                                                <option *ngFor="let sourceType of sourceTypes" 
+                                                [value]="sourceType.releaseSourceId" >
+                                                {{sourceType.releaseSourceDescription}}
+                                                </option>     
+                                            </select>  
+                                    </div>
+                                    <app-show-errors [control]="incidentForm.controls.sourceId"></app-show-errors>
+                                </div>                      
+                            </div>
+                            <!-- /site assessment  -->
+
+
+
+                            <p class="text-left font-weight-bold pl-1" style="background-color: darkSeaGreen">Contaminants</p>
+                            <div class="form-group required row">
+                                    <label class="control-label col-lg-12">(select one or more)</label>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-3">
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" type="checkbox" formControlName="heatingOil"> Heating Oil   
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" type="checkbox" formControlName="unleadedGas">Unleaded Gasoline
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" type="checkbox" formControlName="leadedGas">Leaded Gasoline
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" type="checkbox" formControlName="misGas">Misc. Gasoline
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                            <div class="form-check">
+                                                <label class="form-check-label">
+                                                    <input class="form-check-input" type="checkbox" formControlName="diesel">Diesel (Motor Fuel)
+                                                </label>
+                                            </div>
+                                        </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" type="checkbox" formControlName="wasteOil">Waste Oil
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" type="checkbox" formControlName="lubricant">Lubricant
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" type="checkbox" formControlName="solvent">Solvent
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" type="checkbox" formControlName="otherPet">Other Pet. Dist.  
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" type="checkbox" formControlName="chemical">Chemical
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" type="checkbox" formControlName="mtbe">MTBE  
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" type="checkbox" formControlName="unknown">Unknown Contaminant   
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <app-show-errors [control]="incidentForm.controls.heatingOil"></app-show-errors>
+                                </div>
+    
+    
+    
+    
+    
+    
+    
+                            <p class="text-left font-weight-bold pl-1" style="background-color: darkSeaGreen">Impacted Media</p>
+                            <div class="form-group required row">
+                                <label class="control-label col-lg-12">(select one or more)</label>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-4">
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="checkbox" formControlName="groundWater"> Groundwater
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="checkbox"  formControlName="surfaceWater"> Surface Water
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="checkbox"  formControlName="drinkingWater"> Drinking Water
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="checkbox"  formControlName="soil"> Soil
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" type="checkbox"  formControlName="vapor">Vapor
+                                            </label>
+                                        </div>
+                                    </div>
+                                <div class="col-sm-4">
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="checkbox"  formControlName="freeProduct">Free Product
+                                        </label>
+                                    </div>
+                                </div>
+                                <app-show-errors [control]="incidentForm.controls.groundWater"></app-show-errors>
+                            </div>
+
+
+
+
+    
+                            <p class="text-left font-weight-bold pl-1" style="background-color: darkSeaGreen">Site Comments</p>
+                            <!-- Site Comments -->
+                            <div class="form-row mt-4">
+                                <div class="form-group col-sm-12 pb-3">
+                                    <label for="siteComments">Please enter a comment for the LUST incident (limit 717 characters)</label>
+                                    <textarea type="textarea" class="form-control" id="siteComments"  maxlength="704" rows=6  formControlName="initialComment"></textarea>
+                                </div>    
+                            </div>
+                            <!-- /Site Comments  -->
+                        <div class="form-group row">
+
+                            <div class="col-sm-3">
+                                <button type="submit" class="btn btn-success btn-md btn-block" [disabled]="!incidentForm.valid">Submit</button>
+                                <!-- <button type="submit" class="btn btn-success btn-md btn-block" [disabled]="!incidentForm.valid">Submit</button> -->
+                                <!-- <button type="submit" class="btn btn-success btn-md btn-block" >Submit</button> -->
+                            </div>
+                            <div class="col-sm-3">
+                                <button type="button" class="btn btn-default btn-md btn-block" (click)="resetForm()">Clear Data</button>
+                            </div>
+                            <div class="col-sm-3">
+                                <button type="button" class="btn btn-default btn-md btn-block" (click)="populateTestData()">Populate Test Data</button>
+                            </div>
+                        </div>
+                        <pre>incidentForm: {{ incidentForm.value | json }}</pre>
+                    </form>
+                     <!-- Form incidentForm ends --> 
+                </div>
+            </div>
+
+
+
+
+
+
+
+    </body>
+
+
+</html>
