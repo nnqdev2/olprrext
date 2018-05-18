@@ -23,8 +23,8 @@
                      <!-- Form incidentForm begins -->
                      <form [formGroup]="incidentForm" class="form" role="form" autocomplete="off" method="POST"  (ngSubmit)="submitIncident()">
                         <!-- Date Released Discovered -->
-                        <div class="form-group col-md-2 mt-2">                               
-                            <label for="dateReceived">Date Reported</label>
+                        <div class="form-group col-md-4 mt-2">                               
+                            <label class="control-label col-12"  for="dateReceived">Date Reported</label>
                             <input formControlName="dateReceived" type="text" class="form-control" id="dateReceived"  />
                         </div>
                         <div class="input-group">
@@ -32,10 +32,11 @@
                             <input class="form-control required col-md-4" 
                                 name="dp" formControlName="discoveryDate" id="dateReleaseDiscovered" ngbDatepicker #d="ngbDatepicker">
                             <div class="input-group-append">
-                            <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
-                                <img src="./assets/images/calendar.png" />
-                            </button>
+                                <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+                                    <img src="./assets/images/calendar.png" />
+                                </button>
                             </div>
+                            <app-show-errors [control]="incidentForm.controls.dateReleaseDiscovered"  [submitClicked]="submitClicked"></app-show-errors>
                         </div>
                         <!-- /Date Released Discovered -->
                         <!-- SiteType FacilityId -->
@@ -50,7 +51,7 @@
                                             {{siteType.siteType}}
                                     </option>
                                 </select>    
-                                <app-show-errors [control]="incidentForm.controls.releaseType"></app-show-errors>                            
+                                <app-show-errors [control]="incidentForm.controls.releaseType"  [submitClicked]="submitClicked"></app-show-errors>                            
                             </div>
                             <!-- /Site Type -->
                             <!-- DEQ UST Facility ID  -->
@@ -69,7 +70,7 @@
                             <div class="form-group required col-sm-8 pb-3">
                                 <label class="control-label" for="siteName">Site Name</label>
                                 <input type="text" class="form-control" id="siteName" formControlName="siteName" />
-                                <app-show-errors [control]="incidentForm.controls.siteName"></app-show-errors>
+                                <app-show-errors [control]="incidentForm.controls.siteName"  [submitClicked]="submitClicked"></app-show-errors>
                             </div>
                             <div class="form-group required col-sm-4 pb-3">
                                 <label  class="control-label" for="siteCounty">Site County</label>
@@ -82,7 +83,7 @@
                                         </option>
                                     </select>                                    
                                 </div>
-                                <app-show-errors [control]="incidentForm.controls.siteCounty"></app-show-errors>
+                                <app-show-errors [control]="incidentForm.controls.siteCounty"  [submitClicked]="submitClicked"></app-show-errors>
                             </div>                        
                         </div>
                         <!-- /Site Name, County -->
@@ -91,7 +92,7 @@
                             <div class="form-group required col-md-3 pb-3">
                                 <label class="control-label" for="streetNbr">Site Street Number</label>
                                 <input type="text" class="form-control" id="streetNbr" formControlName="streetNbr" />
-                                <app-show-errors [control]="incidentForm.controls.streetNbr"></app-show-errors>
+                                <app-show-errors [control]="incidentForm.controls.streetNbr"  [submitClicked]="submitClicked"></app-show-errors>
                             </div>
                             <div class="form-group required col-md-3 pb-3">
                                 <label  class="control-label" for="streetQuad">Quadrant</label>
@@ -104,12 +105,12 @@
                                             </option>
                                     </select>                                    
                                 </div>
-                                <app-show-errors [control]="incidentForm.controls.streetQuad"></app-show-errors>
+                                <app-show-errors [control]="incidentForm.controls.streetQuad"  [submitClicked]="submitClicked"></app-show-errors>
                             </div> 
                             <div class="form-group required col-md-3 pb-3">
                                     <label class="control-label" for="streetName">Site Street Name </label>
                                     <input type="text" class="form-control" id="streetName"  formControlName="streetName"/>
-                                    <app-show-errors [control]="incidentForm.controls.streetName"></app-show-errors>
+                                    <app-show-errors [control]="incidentForm.controls.streetName"  [submitClicked]="submitClicked"></app-show-errors>
                                 </div>
                                 <div class="form-group required col-md-3 pb-3">
                                     <label  class="control-label" for="streetType">Site Street Type</label>
@@ -122,7 +123,7 @@
                                                 </option>
                                         </select>                                        
                                     </div>
-                                    <app-show-errors [control]="incidentForm.controls.streetType"></app-show-errors>
+                                    <app-show-errors [control]="incidentForm.controls.streetType" [submitClicked]="submitClicked"></app-show-errors>
                                 </div>                        
                         </div>
                         <!-- /Street number, quadrant, street name, street type  -->
@@ -150,17 +151,17 @@
                                 <div class="form-group required col-md-4 pb-3">
                                     <label class="control-label" for="reportedBy">Reported By</label>
                                     <input type="text" class="form-control" id="reportedBy" formControlName="reportedBy" />
-                                    <app-show-errors [control]="incidentForm.controls.reportedBy"></app-show-errors>
+                                    <app-show-errors [control]="incidentForm.controls.reportedBy"  [submitClicked]="submitClicked"></app-show-errors>
                                 </div>
                                 <div class="form-group required col-md-4 pb-3">
                                     <label class="control-label" for="reportedByPhone">Reported By Phone</label>
                                     <input type="text" class="form-control" id="reportedByPhone" formControlName="reportedByPhone" />
-                                    <app-show-errors [control]="incidentForm.controls.reportedByPhone"></app-show-errors>
+                                    <app-show-errors [control]="incidentForm.controls.reportedByPhone"  [submitClicked]="submitClicked"></app-show-errors>
                                 </div>
                                 <div class="form-group required col-md-4 pb-3">
                                     <label class="control-label" for="company">Company</label>
                                     <input type="text" class="form-control" id="company" formControlName="company" />
-                                    <app-show-errors [control]="incidentForm.controls.company"></app-show-errors>
+                                    <app-show-errors [control]="incidentForm.controls.company"  [submitClicked]="submitClicked"></app-show-errors>
                                 </div>
                             </div>
                             <!-- /Reported By, Phone, Company  -->
@@ -169,7 +170,7 @@
                                 <div class="form-group required col-md-4 pb-3"   >
                                     <label class="control-label" for="reportedByEmail">Reported By Email</label>
                                     <input type="text" class="form-control" id="reportedByEmail"  formControlName="reportedByEmail"/>
-                                    <app-show-errors [control]="incidentForm.controls.reportedByEmail"></app-show-errors>
+                                    <app-show-errors [control]="incidentForm.controls.reportedByEmail" [submitClicked]="submitClicked"></app-show-errors>
                                 </div>
                                 <div class="form-group required col-md-8 pb-3 pt-5" >
                                     *This information is required to receive a submission confirmation email.
@@ -187,38 +188,38 @@
                                 <div class="form-group required col-md-6 pb-3">
                                     <label class="control-label" for="rpFirstName">Responsible Party First Name</label>
                                     <input type="text" class="form-control" id="rpFirstName" formControlName="rpFirstName" />
-                                    <app-show-errors [control]="incidentForm.controls.rpFirstName"></app-show-errors>
+                                    <app-show-errors [control]="incidentForm.controls.rpFirstName" [submitClicked]="submitClicked"></app-show-errors>
                                 </div>
                                 <div class="form-group required col-md-6 pb-3">
                                     <label class="control-label" for="rpLastName">Responsible Party Last Name</label>
                                     <input type="text" class="form-control" id="rpLastName" formControlName="rpLastName" />
-                                    <app-show-errors [control]="incidentForm.controls.rpLastName"></app-show-errors>
+                                    <app-show-errors [control]="incidentForm.controls.rpLastName" [submitClicked]="submitClicked"></app-show-errors>
                                 </div>
                             </div>
                             <div class="form-row mt-4">
                                 <div class="form-group required col-md-12 pb-3">
                                     <label class="control-label" for="rpOrganization">Organization</label>
                                     <input type="text" class="form-control" id="rpOrganization" formControlName="rpOrganization" />
-                                    <app-show-errors [control]="incidentForm.controls.rpOrganization"></app-show-errors>
+                                    <app-show-errors [control]="incidentForm.controls.rpOrganization" [submitClicked]="submitClicked"></app-show-errors>
                                 </div>
                             </div>
                             <div class="form-row mt-4">
                                 <div class="form-group required col-md-6 pb-3">
                                     <label class="control-label" for="rpAddress">Address</label>
                                     <input type="text" class="form-control" id="rpAddress" formControlName="rpAddress"  />
-                                    <app-show-errors [control]="incidentForm.controls.rpAddress"></app-show-errors>
+                                    <app-show-errors [control]="incidentForm.controls.rpAddress"  [submitClicked]="submitClicked"></app-show-errors>
                                 </div>
                                 <div class="form-group required col-md-6 pb-3">
                                     <label class="control-label" for="rpPhone">Phone</label>
                                     <input type="text" class="form-control" id="rpPhone" formControlName="rpPhone" />
-                                    <app-show-errors [control]="incidentForm.controls.rpPhone"></app-show-errors>
+                                    <app-show-errors [control]="incidentForm.controls.rpPhone"  [submitClicked]="submitClicked"></app-show-errors>
                                 </div>
                             </div>
                             <div class="form-row mt-4">
                                 <div class="form-group required col-md-6 pb-3">
                                     <label class="control-label" for="rpCity">City</label>
                                     <input type="text" class="form-control" id="rpCity" formControlName="rpCity"  />
-                                    <app-show-errors [control]="incidentForm.controls.rpCity"></app-show-errors>
+                                    <app-show-errors [control]="incidentForm.controls.rpCity"  [submitClicked]="submitClicked"></app-show-errors>
                                 </div>
                                 <div class="form-group col-md-6 pb-3">
                                     <label for="rpEmail">Email</label>
@@ -238,13 +239,13 @@
                                                 </option>                                               
                                         </select>
                                     </div>
-                                    <app-show-errors [control]="incidentForm.controls.rpState"></app-show-errors>
+                                    <app-show-errors [control]="incidentForm.controls.rpState"  [submitClicked]="submitClicked"></app-show-errors>
                                 </div> 
                                 <div class="form-row mt-4">
                                     <div class="form-group required col-xs-12 pb-3">
                                         <label class="control-label" for="rpZipcode">Zip Code</label>
                                         <input type="text" class="form-control" id="rpZipcode" formControlName="rpZipcode"/>
-                                        <app-show-errors [control]="incidentForm.controls.rpZipcode"></app-show-errors>
+                                        <app-show-errors [control]="incidentForm.controls.rpZipcode"  [submitClicked]="submitClicked"></app-show-errors>
                                     </div>
                                 </div>
                             </div>
@@ -266,38 +267,38 @@
                                 <div class="form-group required col-md-6 pb-3">
                                     <label class="control-label" for="icFirstName">First Name</label>
                                     <input type="text" class="form-control" id="icFirstName" formControlName="icFirstName" />
-                                    <app-show-errors [control]="incidentForm.controls.icFirstName"></app-show-errors>
+                                    <app-show-errors [control]="incidentForm.controls.icFirstName"  [submitClicked]="submitClicked"></app-show-errors>
                                 </div>
                                 <div class="form-group required col-md-6 pb-3">
                                     <label class="control-label" for="icLastName">Last Name</label>
                                     <input type="text" class="form-control" id="icLastName" formControlName="icLastName" />
-                                    <app-show-errors [control]="incidentForm.controls.icLastName"></app-show-errors>
+                                    <app-show-errors [control]="incidentForm.controls.icLastName"  [submitClicked]="submitClicked"></app-show-errors>
                                 </div>
                             </div>
                             <div class="form-row mt-4">
                                 <div class="form-group required col-md-12 pb-3">
                                     <label class="control-label" for="icOrganization">Organization</label>
                                     <input type="text" class="form-control" id="icOrganization" formControlName="icOrganization" />
-                                    <app-show-errors [control]="incidentForm.controls.icOrganization"></app-show-errors>
+                                    <app-show-errors [control]="incidentForm.controls.icOrganization"  [submitClicked]="submitClicked"></app-show-errors>
                                 </div>
                             </div>
                             <div class="form-row mt-4">
                                 <div class="form-group required col-md-6 pb-3">
                                     <label class="control-label" for="icAddress">Address</label>
                                     <input type="text" class="form-control" id="icAddress" formControlName="icAddress"  />
-                                    <app-show-errors [control]="incidentForm.controls.rpAddress"></app-show-errors>
+                                    <app-show-errors [control]="incidentForm.controls.rpAddress"  [submitClicked]="submitClicked"></app-show-errors>
                                 </div>
                                 <div class="form-group required col-md-6 pb-3">
                                     <label class="control-label" for="rpPhone">Phone</label>
                                     <input type="text" class="form-control" id="rpPhone" formControlName="rpPhone" />
-                                    <app-show-errors [control]="incidentForm.controls.icAddress"></app-show-errors>
+                                    <app-show-errors [control]="incidentForm.controls.icAddress"  [submitClicked]="submitClicked"></app-show-errors>
                                 </div>
                             </div>
                             <div class="form-row mt-4">
                                 <div class="form-group required col-md-6 pb-3">
                                     <label class="control-label" for="icCity">City</label>
                                     <input type="text" class="form-control" id="icCity" formControlName="icCity"  />
-                                    <app-show-errors [control]="incidentForm.controls.icCity"></app-show-errors>
+                                    <app-show-errors [control]="incidentForm.controls.icCity"  [submitClicked]="submitClicked"></app-show-errors>
                                 </div>
                                 <div class="form-group col-md-6 pb-3">
                                     <label for="icEmail">Email</label>
@@ -316,13 +317,13 @@
                                                 </option>                                               
                                         </select>
                                     </div>
-                                    <app-show-errors [control]="incidentForm.controls.icState"></app-show-errors>
+                                    <app-show-errors [control]="incidentForm.controls.icState"  [submitClicked]="submitClicked"></app-show-errors>
                                 </div> 
                                 <div class="form-row mt-4">
                                     <div class="form-group required col-xs-12 pb-3">
                                         <label class="control-label" for="icZipcode">Zip Code</label>
                                         <input type="text" class="form-control" id="icZipcode" formControlName="icZipcode"/>
-                                        <app-show-errors [control]="incidentForm.controls.icZipcode"></app-show-errors>
+                                        <app-show-errors [control]="incidentForm.controls.icZipcode"  [submitClicked]="submitClicked"></app-show-errors>
                                     </div>
                                 </div>
                             </div>
@@ -344,7 +345,7 @@
                                                 </option>     
                                             </select>  
                                     </div>
-                                    <app-show-errors [control]="incidentForm.controls.confirmationCode"></app-show-errors>
+                                    <app-show-errors [control]="incidentForm.controls.confirmationCode"  [submitClicked]="submitClicked"></app-show-errors>
                                 </div> 
                                 <div class="form-group required col-md-3 pb-3">
                                     <label  class="control-label" for="discoveryCode">Discovery</label>
@@ -357,7 +358,7 @@
                                                 </option>     
                                             </select>  
                                     </div>
-                                    <app-show-errors [control]="incidentForm.controls.discoveryCode"></app-show-errors>
+                                    <app-show-errors [control]="incidentForm.controls.discoveryCode"  [submitClicked]="submitClicked"></app-show-errors>
                                 </div>   
                                 <div class="form-group required col-md-3 pb-3">
                                     <label  class="control-label" for="releaseCauseCode">Cause</label>
@@ -370,7 +371,7 @@
                                                 </option>     
                                             </select>  
                                     </div>
-                                    <app-show-errors [control]="incidentForm.controls.causeCode"></app-show-errors>
+                                    <app-show-errors [control]="incidentForm.controls.causeCode"  [submitClicked]="submitClicked"></app-show-errors>
                                 </div>    
                                 <div class="form-group required col-md-3 pb-3">
                                     <label  class="control-label" for="sourceId">Source</label>
@@ -383,7 +384,7 @@
                                                 </option>     
                                             </select>  
                                     </div>
-                                    <app-show-errors [control]="incidentForm.controls.sourceId"></app-show-errors>
+                                    <app-show-errors [control]="incidentForm.controls.sourceId"  [submitClicked]="submitClicked"></app-show-errors>
                                 </div>                      
                             </div>
                             <!-- /site assessment  -->
@@ -547,44 +548,17 @@
                             <!-- /Site Comments  -->
 
 
-                            <div *ngIf="showAllErrorMessages; then showAllErrorMessages"></div>
-                            <ng-template #showAllErrorMessages> 
-                                    <ngb-alert *ngIf="!isClosed" [type]="warning" class="fade show hide-the" (close)="isClosed=true">
-                                    <div class="form-group row">
-                                        <app-show-all-messages [messages]="errors"></app-show-all-messages>
-                                    </div>
-                                </ngb-alert>
-                            </ng-template>
-
+                        <!-- show errors  -->
+                        <div *ngIf="showAllErrorMessages; then showAllErrorMessages"></div>
+                        <ng-template #showAllErrorMessages> 
+                            <ngb-alert *ngIf="!isClosed" [type]="warning" class="fade show hide-the" (close)="isClosed=true">
+                                <div class="form-group row">
+                                    <app-show-all-messages [messages]="errors"></app-show-all-messages>
+                                </div>
+                            </ngb-alert>
+                        </ng-template>
+                        <!-- /show errors  -->
 	
-
-                            <!-- <ngb-alert *ngIf="showAllErrorMessages; then showAllErrorMessages" [type]="warning"  (close)="isClosed=true">
-                                <ng-template #showAllErrorMessages> 
-                                    <div class="form-group row">
-                                        <app-show-all-messages [messages]="errors"></app-show-all-messages>
-                                    </div>
-                                </ng-template>
-                            </ngb-alert> -->
-
-
-                            <!-- <ngb-alert *ngIf="!isClosed" [type]="warning" class="fade show hide-the" (close)="isClosed=true">
-                                <strong>HELLO THERE</strong>
-                                <strong>{{ errorMsg }}</strong>
-                            </ngb-alert> -->
-
-                            <!-- show all error messages  -->
-                            <!-- <div *ngIf="showAllErrorMessages; then showAllErrorMessages"></div>
-                            <ng-template #showAllErrorMessages> 
-                            <div class="form-group row">
-                                <app-show-all-messages [messages]="errors"></app-show-all-messages>
-                            </div>
-                            </ng-template> -->
-
-
-
-
-
-
 
                         <div class="form-group row">
 

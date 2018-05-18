@@ -2,11 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DatePipe} from '@angular/common';
 import { environment } from '../../environments/environment';
-// import 'rxjs/add/operator/do';
-// import 'rxjs/add/operator/catch';
-// import 'rxjs/add/observable/throw';
-// import 'rxjs/add/operator/map';
-// import 'rxjs/add/observable/of';
 import { Observable, of} from 'rxjs';
 // import { map, catchError, tap, retry} from 'rxjs/operators';
 
@@ -49,15 +44,11 @@ export class IncidentComponent implements OnInit {
   showInvoiceContact = false;
   errorMessage: string;
   emailPattern = '^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$';
-  isDebug = false;
+  submitClicked = false;
   isClosed = true;
 
   errors: any[];
   showAllErrorsMessages = false;
-
-
-
-
 
   constructor(private incidentDataService: IncidentDataService, private formBuilder: FormBuilder, private datePipe: DatePipe
     , private configService: ConfigService) {}
@@ -174,6 +165,7 @@ export class IncidentComponent implements OnInit {
   }
 
   submitIncident(): void {
+    this.submitClicked = true;
     if (this.incidentForm.dirty && this.incidentForm.valid) {
         this.createIncident();
     } else if (this.incidentForm.invalid) {
@@ -227,7 +219,6 @@ export class IncidentComponent implements OnInit {
     this.incidentForm.patchValue({
       dateReceived: this.datePipe.transform(new Date(), 'MM-dd-yyyy')
     });
-    // throw new Error('ERRRRRRRRRRRRRRRRRRRRRRRRRRR');
   }
 
   getAppConfig() {
@@ -304,6 +295,7 @@ export class IncidentComponent implements OnInit {
     this.incidentForm.reset();
     this.showAllErrorsMessages = false;
     this.isClosed = true;
+    this.submitClicked = false;
   }
 
   populateTestData(): void {
@@ -413,33 +405,45 @@ export class IncidentComponent implements OnInit {
   private findInvalidControls() {
     const invalid = [];
     const controls = this.incidentForm.controls;
-    console.error(controls);
-    for (const name in controls) {
-        if (controls[name].invalid) {
-            // console.error('********** offending element ===>' + name);
-            // const tempArray = Object.keys(controls[name].errors);
-            // console.error(tempArray);
-            // const xxxx = Object.keys(controls[name].errors)
-            //    .map(field => this.getMessage(field, controls[name].errors[field]));
-            // const tempField: string;
-            // const tempParams: any;
-            // console.error('********** offending element ===>' + name);
-            invalid.push(name + ' is required and must be valid.');
+    for (const field of Object.keys(this.incidentForm.controls)) {
+        if (this.incidentForm.controls[field].invalid) {
+            invalid.push(field + ' is required and must be valid.');
         }
     }
+
+    if (this.incidentForm.controls.heatingOil.value || this.incidentForm.controls.unleadedGas.value ||
+        this.incidentForm.controls.leadedGas.value || this.incidentForm.controls.misGas.value ||
+        this.incidentForm.controls.diesel.value || this.incidentForm.controls.wasteOil.value ||
+        this.incidentForm.controls.lubricant.value || this.incidentForm.controls.solvent.value ||
+        this.incidentForm.controls.otherPet.value || this.incidentForm.controls.chemical.value ||
+        this.incidentForm.controls.unknown.value || this.incidentForm.controls.mtbe.value
+    ) { } else {
+      invalid.push('Must enter at least one Contaminants.');
+    }
+
+    if (this.incidentForm.controls.groundWater.value || this.incidentForm.controls.surfaceWater.value ||
+        this.incidentForm.controls.drinkingWater.value || this.incidentForm.controls.soil.value ||
+        this.incidentForm.controls.vapor.value || this.incidentForm.controls.freeProduct.value 
+    ) { } else {
+      invalid.push('Must enter at least one Medias.');
+  }
     return invalid;
   }
 
   private findInvalidControlsOrig() {
     const invalid = [];
     const controls = this.incidentForm.controls;
+
+
     console.error(controls);
     for (const name in controls) {
+
         if (controls[name].invalid) {
             console.error('********** offending element ===>' + name);
             console.error(name);
             invalid.push(name + ' is required and must be valid.');
         }
+
     }
 
     return invalid;

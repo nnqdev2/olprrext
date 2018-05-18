@@ -25,19 +25,14 @@ export class ShowErrorsComponent {
 
   @Input()
   private control: AbstractControlDirective | AbstractControl;
+  @Input()
+  private submitClicked: boolean;
 
   shouldShowErrors(): boolean {
 
-    // console.log('****** ShowErrorsComponent shouldShowErrors()  this.control.dirty this.control.touched this.control.errors  ');
-    // console.log(this.control);
-    // console.log(this.control.dirty);
-    // console.log(this.control.touched);
-    // console.log(this.control.errors);
-    // console.log('*****************');
-    // console.log(((this.control) as (AbstractControl)).get('groundWater'));
     return this.control &&
       this.control.errors &&
-      (this.control.dirty || this.control.touched);
+      (this.control.dirty || this.control.touched || this.submitClicked);
   }
 
   listOfErrors(): string[] {
