@@ -19,8 +19,8 @@ export class ShowErrorsComponent {
     'uniqueName': (params) => params.message,
     'telephoneNumbers': (params) => params.message,
     'telephoneNumber': (params) => params.message,
-    'groundWaterError': 'Select one or more Media',
-    'heatingOilError': 'Select one or more Contaminants'
+    'selectOneOrMoreMedia': 'Select one or more Media',
+    'selectOneOrMoreContaminants': 'Select one or more Contaminants'
   };
 
   @Input()
@@ -33,6 +33,8 @@ export class ShowErrorsComponent {
     // console.log(this.control.dirty);
     // console.log(this.control.touched);
     // console.log(this.control.errors);
+    // console.log('*****************');
+    // console.log(((this.control) as (AbstractControl)).get('groundWater'));
     return this.control &&
       this.control.errors &&
       (this.control.dirty || this.control.touched);

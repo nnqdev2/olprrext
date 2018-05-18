@@ -21,7 +21,7 @@
                     <p class="text-left font-weight-bold pl-1" style="background-color: darkSeaGreen">Incident Information</p>
                  
                      <!-- Form incidentForm begins -->
-                     <form [formGroup]="incidentForm" class="form" role="form" autocomplete="off" method="POST"  (ngSubmit)="createIncident()">
+                     <form [formGroup]="incidentForm" class="form" role="form" autocomplete="off" method="POST"  (ngSubmit)="submitIncident()">
                         <!-- Date Released Discovered -->
                         <div class="form-group col-md-2 mt-2">                               
                             <label for="dateReceived">Date Reported</label>
@@ -56,16 +56,11 @@
                             <!-- DEQ UST Facility ID  -->
                             <div *ngIf="showInvoiceContact; then showFacility"></div>
                             <ng-template #showFacility> 
-
-
                                 <div class="form-group col-md-4 mt-2"   >
                                     <label class="control-label" for="facilityId">DEQ UST Facility ID</label>
                                     <input type="text" class="form-control" id="facilityId" formControlName="facilityId"/>
                                 </div>
                             </ng-template>
-
-
-
                             <!-- /DEQ UST Facility ID -->
                         </div>
                         <!-- /SiteType FacilityId -->
@@ -484,10 +479,9 @@
                                             </label>
                                         </div>
                                     </div>
-                                    <app-show-errors [control]="incidentForm.controls.heatingOil"></app-show-errors>
                                 </div>
-    
-    
+                               <!--  end of contaminants
+                                -->
     
     
     
@@ -540,37 +534,74 @@
                                         </label>
                                     </div>
                                 </div>
-                                <app-show-errors [control]="incidentForm.controls.groundWater"></app-show-errors>
                             </div>
-
-
-
-
     
                             <p class="text-left font-weight-bold pl-1" style="background-color: darkSeaGreen">Site Comments</p>
                             <!-- Site Comments -->
                             <div class="form-row mt-4">
                                 <div class="form-group col-sm-12 pb-3">
                                     <label for="siteComments">Please enter a comment for the LUST incident (limit 717 characters)</label>
-                                    <textarea type="textarea" class="form-control" id="siteComments"  maxlength="704" rows=6  formControlName="initialComment"></textarea>
+                                    <textarea type="textarea" class="form-control" id="siteComments"  maxlength="717" rows=6  formControlName="initialComment"></textarea>
                                 </div>    
                             </div>
                             <!-- /Site Comments  -->
+
+
+                            <div *ngIf="showAllErrorMessages; then showAllErrorMessages"></div>
+                            <ng-template #showAllErrorMessages> 
+                                    <ngb-alert *ngIf="!isClosed" [type]="warning" class="fade show hide-the" (close)="isClosed=true">
+                                    <div class="form-group row">
+                                        <app-show-all-messages [messages]="errors"></app-show-all-messages>
+                                    </div>
+                                </ngb-alert>
+                            </ng-template>
+
+	
+
+                            <!-- <ngb-alert *ngIf="showAllErrorMessages; then showAllErrorMessages" [type]="warning"  (close)="isClosed=true">
+                                <ng-template #showAllErrorMessages> 
+                                    <div class="form-group row">
+                                        <app-show-all-messages [messages]="errors"></app-show-all-messages>
+                                    </div>
+                                </ng-template>
+                            </ngb-alert> -->
+
+
+                            <!-- <ngb-alert *ngIf="!isClosed" [type]="warning" class="fade show hide-the" (close)="isClosed=true">
+                                <strong>HELLO THERE</strong>
+                                <strong>{{ errorMsg }}</strong>
+                            </ngb-alert> -->
+
+                            <!-- show all error messages  -->
+                            <!-- <div *ngIf="showAllErrorMessages; then showAllErrorMessages"></div>
+                            <ng-template #showAllErrorMessages> 
+                            <div class="form-group row">
+                                <app-show-all-messages [messages]="errors"></app-show-all-messages>
+                            </div>
+                            </ng-template> -->
+
+
+
+
+
+
+
                         <div class="form-group row">
 
                             <div class="col-sm-3">
-                                <button type="submit" class="btn btn-success btn-md btn-block" [disabled]="!incidentForm.valid">Submit</button>
+                                <button type="submit" class="btn btn-success btn-md btn-block" >Submit</button>
+                                <!-- <button type="submit" class="btn btn-success btn-md btn-block" [disabled]="!incidentForm.valid">Submit</button> -->
                                 <!-- <button type="submit" class="btn btn-success btn-md btn-block" [disabled]="!incidentForm.valid">Submit</button> -->
                                 <!-- <button type="submit" class="btn btn-success btn-md btn-block" >Submit</button> -->
                             </div>
                             <div class="col-sm-3">
-                                <button type="button" class="btn btn-default btn-md btn-block" (click)="resetForm()">Clear Data</button>
+                                <button type="button" class="btn btn-default btn-md btn-block" (click)="resetForm()">Reset</button>
                             </div>
                             <div class="col-sm-3">
                                 <button type="button" class="btn btn-default btn-md btn-block" (click)="populateTestData()">Populate Test Data</button>
                             </div>
                         </div>
-                        <pre>incidentForm: {{ incidentForm.value | json }}</pre>
+                        <!-- <pre>incidentForm: {{ incidentForm.value | json }}</pre> -->
                     </form>
                      <!-- Form incidentForm ends --> 
                 </div>

@@ -16,6 +16,7 @@ import { ShowErrorsComponent } from './show-errors/show-errors.component';
 import { IncidentComponent } from './incident/incident.component';
 import { httpInterceptorProviders } from './http-interceptors/index';
 import { AppErrorHandler } from './shared/app-error-handler';
+import { ShowAllMessagesComponent } from './show-all-messages/show-all-messages/show-all-messages.component';
 
 @NgModule({
   imports: [
@@ -32,7 +33,8 @@ import { AppErrorHandler } from './shared/app-error-handler';
   declarations: [
     AppComponent,
     IncidentComponent,
-    ShowErrorsComponent
+    ShowErrorsComponent,
+    ShowAllMessagesComponent
   ],
   providers: [
     httpInterceptorProviders,

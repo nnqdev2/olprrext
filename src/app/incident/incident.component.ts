@@ -49,6 +49,14 @@ export class IncidentComponent implements OnInit {
   showInvoiceContact = false;
   errorMessage: string;
   emailPattern = '^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$';
+  isDebug = false;
+  isClosed = true;
+
+  errors: any[];
+  showAllErrorsMessages = false;
+
+
+
 
 
   constructor(private incidentDataService: IncidentDataService, private formBuilder: FormBuilder, private datePipe: DatePipe
@@ -165,46 +173,51 @@ export class IncidentComponent implements OnInit {
     this.incidentForm.controls.icZipcode.setValue(this.incidentForm.controls.rpZipcode.value);
   }
 
-  createIncident(): void {
-    // const errors: any[] = this.findInvalidControls();
-    // if (this.incidentForm.valid) {
-    //   console.log('incidentForm Submitted!', this.incidentForm.value);
-    // } else {
-    //   console.log('incidentForm is not Valid therefore not Submitted!', this.incidentForm.value);
-    // }
-
+  submitIncident(): void {
     if (this.incidentForm.dirty && this.incidentForm.valid) {
+        this.createIncident();
+    } else if (this.incidentForm.invalid) {
+        this.errors = this.findInvalidControls();
+        this.showAllErrorsMessages = true;
+        this.isClosed = false;
+    } else if (!this.incidentForm.dirty) {
+        this.onCreateComplete();
+    }
+  }
+  createIncident(): void {
+    this.incidentForm.controls.deqOffice.setValue(this.getDeqOffice());
+    this.incidentForm.controls.contractorUid.setValue(environment.contractor_uid);
+    this.incidentForm.controls.contractorPwd.setValue(environment.contractor_pwd);
+    this.incidentForm.controls.siteAddress.setValue(`${this.incidentForm.controls.streetNbr.value} `
+      + `${this.incidentForm.controls.streetQuad.value} `
+      + `${this.incidentForm.controls.streetName.value} `
+      + `${this.incidentForm.controls.streetType.value} `);
 
-      this.incidentForm.controls.deqOffice.setValue(this.getDeqOffice());
-      this.incidentForm.controls.contractorUid.setValue(environment.contractor_uid);
-      this.incidentForm.controls.contractorPwd.setValue(environment.contractor_pwd);
-      this.incidentForm.controls.siteAddress.setValue(`${this.incidentForm.controls.streetNbr.value} `
-        + `${this.incidentForm.controls.streetQuad.value} `
-        + `${this.incidentForm.controls.streetName.value} `
-        + `${this.incidentForm.controls.streetType.value} `);
 
+    const ngbDate = this.incidentForm.controls['discoveryDate'].value;
+    const myDate = new Date(ngbDate.year, ngbDate.month, ngbDate.day);
+    this.incidentForm.controls['discoveryDate'].setValue(myDate);
+    this.incidentForm.controls['submitDateTime'].setValue(myDate);
 
-      const ngbDate = this.incidentForm.controls['discoveryDate'].value;
-      const myDate = new Date(ngbDate.year, ngbDate.month, ngbDate.day);
-      this.incidentForm.controls['discoveryDate'].setValue(myDate);
-      this.incidentForm.controls['submitDateTime'].setValue(myDate);
+    console.log('*********this.incidentForm is ');
+    console.log(this.incidentForm);
+    console.log('*********this.incident is ' );
+    console.log( JSON.stringify(this.incident));
 
-      // console.log('*********this.incidentForm is ' + (this.incidentForm));
-      // console.log('*********this.incident is ' + JSON.stringify(this.incident));
+    // Copy the form values over the product object values
+    const p = Object.assign({}, this.incident, this.incidentForm.value);
 
-      // Copy the form values over the product object values
-      const p = Object.assign({}, this.incident, this.incidentForm.value);
+    console.log('*********p is ' + JSON.stringify(p));
 
-      // console.log('*********p is ' + JSON.stringify(p));
+    console.error('********************************');
+    console.error(this.incidentForm.controls.groundWater.value);
+    console.error(this.incidentForm.controls.groundWater.errors);
 
-      this.incidentDataService.createIncident(p)
-          .subscribe(
-              () => this.onCreateComplete(),
-              (error: any) => this.errorMessage = <any>error
-          );
-      } else if (!this.incidentForm.dirty) {
-          this.onCreateComplete();
-      }
+    this.incidentDataService.createIncident(p)
+        .subscribe(
+            () => this.onCreateComplete(),
+            (error: any) => this.errorMessage = <any>error
+        );
   }
 
   onCreateComplete(): void {
@@ -289,6 +302,8 @@ export class IncidentComponent implements OnInit {
 
   resetForm(): void {
     this.incidentForm.reset();
+    this.showAllErrorsMessages = false;
+    this.isClosed = true;
   }
 
   populateTestData(): void {
@@ -398,12 +413,38 @@ export class IncidentComponent implements OnInit {
   private findInvalidControls() {
     const invalid = [];
     const controls = this.incidentForm.controls;
+    console.error(controls);
     for (const name in controls) {
         if (controls[name].invalid) {
-            console.error('********** offending element ===>' + name);
-            invalid.push(name);
+            // console.error('********** offending element ===>' + name);
+            // const tempArray = Object.keys(controls[name].errors);
+            // console.error(tempArray);
+            // const xxxx = Object.keys(controls[name].errors)
+            //    .map(field => this.getMessage(field, controls[name].errors[field]));
+            // const tempField: string;
+            // const tempParams: any;
+            // console.error('********** offending element ===>' + name);
+            invalid.push(name + ' is required and must be valid.');
         }
     }
     return invalid;
+  }
+
+  private findInvalidControlsOrig() {
+    const invalid = [];
+    const controls = this.incidentForm.controls;
+    console.error(controls);
+    for (const name in controls) {
+        if (controls[name].invalid) {
+            console.error('********** offending element ===>' + name);
+            console.error(name);
+            invalid.push(name + ' is required and must be valid.');
+        }
+    }
+
+    return invalid;
+    }
+
+
   }
 }
