@@ -19,8 +19,8 @@ export class ShowErrorsComponent {
     'uniqueName': (params) => params.message,
     'telephoneNumbers': (params) => params.message,
     'telephoneNumber': (params) => params.message,
-    'selectOneOrMoreMedia': 'Select one or more Media',
-    'selectOneOrMoreContaminants': 'Select one or more Contaminants'
+    'selectOneOrMoreMedias': 'Must select one or more Medias.',
+    'selectOneOrMoreContaminants': 'Must select one or more Contaminants.'
   };
 
   @Input()

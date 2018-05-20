@@ -18,12 +18,13 @@ import { StreetType } from '../models/street-type';
 import { Incident } from '../models/incident';
 import { IncidentValidators } from '../validators/incident.validator';
 import { ConfigService } from '../shared/config.service';
+import { IdToNameDataService } from './id-to-name-data.service';
 
 @Component({
   selector: 'app-incident',
   templateUrl: './incident.component.html',
   styleUrls: ['./incident.component.css'],
-  providers: [ DatePipe, IncidentDataService ]
+  providers: [ DatePipe, IncidentDataService, IdToNameDataService ]
 })
 
 export class IncidentComponent implements OnInit {
@@ -46,12 +47,20 @@ export class IncidentComponent implements OnInit {
   emailPattern = '^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$';
   submitClicked = false;
   isClosed = true;
+  isContaminantClosed = true;
+  isMediaClosed = true;
+  showAllErrorsMessages = false;
+  showContaminantErrorMessage = false;
+  showMediaErrorMessage = false;
+  contaminantErrorMessage: string;
+  mediaErrorMessage: string;
+  contaminantErrorMessages: [string];
+  mediaErrorMessages: [string];
 
   errors: any[];
-  showAllErrorsMessages = false;
 
   constructor(private incidentDataService: IncidentDataService, private formBuilder: FormBuilder, private datePipe: DatePipe
-    , private configService: ConfigService) {}
+    , private configService: ConfigService, private idToNameService: IdToNameDataService) {}
 
 
   ngOnInit() {
@@ -170,8 +179,22 @@ export class IncidentComponent implements OnInit {
         this.createIncident();
     } else if (this.incidentForm.invalid) {
         this.errors = this.findInvalidControls();
+        this.contaminantErrorMessage = this.getContaminantErrorMessage();
+        if (this.contaminantErrorMessage != null) {
+          this.contaminantErrorMessages = [this.contaminantErrorMessage];
+          this.errors.push(this.contaminantErrorMessage);
+          this.showContaminantErrorMessage = true;
+        }
+        this.mediaErrorMessage = this.getMediaErrorMessage();
+        if (this.mediaErrorMessage != null) {
+          this.mediaErrorMessages = [this.mediaErrorMessage];
+          this.errors.push(this.mediaErrorMessage);
+          this.showMediaErrorMessage = true;
+        }
         this.showAllErrorsMessages = true;
         this.isClosed = false;
+        this.isContaminantClosed = false;
+        this.isMediaClosed = false;
     } else if (!this.incidentForm.dirty) {
         this.onCreateComplete();
     }
@@ -216,6 +239,7 @@ export class IncidentComponent implements OnInit {
     // Reset the form to clear the flags
     console.log('ok did it hip hip hoorayyy!!!!');
     this.incidentForm.reset();
+    this.resetFlags();
     this.incidentForm.patchValue({
       dateReceived: this.datePipe.transform(new Date(), 'MM-dd-yyyy')
     });
@@ -291,11 +315,21 @@ export class IncidentComponent implements OnInit {
     );
   }
 
+  resetFlags() {
+    this.showAllErrorsMessages = false;
+    this.submitClicked = false;
+    this.showContaminantErrorMessage = false;
+    this.showMediaErrorMessage = false;
+    this.isClosed = true;
+    this.isContaminantClosed = true;
+    this.isMediaClosed = true;
+    this.contaminantErrorMessage = null;
+    this.mediaErrorMessage = null;
+  }
+
   resetForm(): void {
     this.incidentForm.reset();
-    this.showAllErrorsMessages = false;
-    this.isClosed = true;
-    this.submitClicked = false;
+    this.resetFlags();
   }
 
   populateTestData(): void {
@@ -407,48 +441,58 @@ export class IncidentComponent implements OnInit {
     const controls = this.incidentForm.controls;
     for (const field of Object.keys(this.incidentForm.controls)) {
         if (this.incidentForm.controls[field].invalid) {
-            invalid.push(field + ' is required and must be valid.');
+            const name = this.idToNameService.getName(field);
+            invalid.push(name + ' is required and must be valid.');
         }
     }
 
-    if (this.incidentForm.controls.heatingOil.value || this.incidentForm.controls.unleadedGas.value ||
-        this.incidentForm.controls.leadedGas.value || this.incidentForm.controls.misGas.value ||
-        this.incidentForm.controls.diesel.value || this.incidentForm.controls.wasteOil.value ||
-        this.incidentForm.controls.lubricant.value || this.incidentForm.controls.solvent.value ||
-        this.incidentForm.controls.otherPet.value || this.incidentForm.controls.chemical.value ||
-        this.incidentForm.controls.unknown.value || this.incidentForm.controls.mtbe.value
-    ) { } else {
-      invalid.push('Must enter at least one Contaminants.');
+    const contaminantErrorMessage = this.getContaminantErrorMessage();
+    if (contaminantErrorMessage != null) {
+      invalid.push(contaminantErrorMessage);
     }
 
-    if (this.incidentForm.controls.groundWater.value || this.incidentForm.controls.surfaceWater.value ||
-        this.incidentForm.controls.drinkingWater.value || this.incidentForm.controls.soil.value ||
-        this.incidentForm.controls.vapor.value || this.incidentForm.controls.freeProduct.value 
-    ) { } else {
-      invalid.push('Must enter at least one Medias.');
-  }
+    const mediaErrorMessage = this.getMediaErrorMessage();
+    if (mediaErrorMessage != null) {
+      invalid.push(mediaErrorMessage);
+    }
+
     return invalid;
   }
 
+  private getMediaErrorMessage(): string {
+    if (this.incidentForm.controls.groundWater.value || this.incidentForm.controls.surfaceWater.value ||
+      this.incidentForm.controls.drinkingWater.value || this.incidentForm.controls.soil.value ||
+      this.incidentForm.controls.vapor.value || this.incidentForm.controls.freeProduct.value 
+    ) { return null; } else {
+      this.showMediaErrorMessage = true;
+      return('Must select at least one Media.');
+    }
+  }
+  private getContaminantErrorMessage(): string {
+    if (this.incidentForm.controls.heatingOil.value || this.incidentForm.controls.unleadedGas.value ||
+      this.incidentForm.controls.leadedGas.value || this.incidentForm.controls.misGas.value ||
+      this.incidentForm.controls.diesel.value || this.incidentForm.controls.wasteOil.value ||
+      this.incidentForm.controls.lubricant.value || this.incidentForm.controls.solvent.value ||
+      this.incidentForm.controls.otherPet.value || this.incidentForm.controls.chemical.value ||
+      this.incidentForm.controls.unknown.value || this.incidentForm.controls.mtbe.value
+    ) { return null; } else {
+      this.showContaminantErrorMessage = true;
+      return('Must select at least one Contaminant.');
+    }
+  }
   private findInvalidControlsOrig() {
     const invalid = [];
     const controls = this.incidentForm.controls;
-
-
-    console.error(controls);
     for (const name in controls) {
-
         if (controls[name].invalid) {
             console.error('********** offending element ===>' + name);
             console.error(name);
             invalid.push(name + ' is required and must be valid.');
         }
-
     }
-
     return invalid;
     }
 
 
-  }
+  // }
 }

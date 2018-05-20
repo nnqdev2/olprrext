@@ -27,16 +27,17 @@
                             <label class="control-label col-12"  for="dateReceived">Date Reported</label>
                             <input formControlName="dateReceived" type="text" class="form-control" id="dateReceived"  />
                         </div>
-                        <div class="input-group">
-                            <label class="control-label col-12" for="dateReleaseDiscovered">Date Release Discovered</label>
+                        <div class="input-group required">
+                            <label class="control-label col-12 " for="dateReleaseDiscovered">Date Release Discovered</label>
                             <input class="form-control required col-md-4" 
                                 name="dp" formControlName="discoveryDate" id="dateReleaseDiscovered" ngbDatepicker #d="ngbDatepicker">
+                            <!-- <app-show-errors [control]="incidentForm.controls.discoveryDate"  [submitClicked]="submitClicked"></app-show-errors> -->
                             <div class="input-group-append">
                                 <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
                                     <img src="./assets/images/calendar.png" />
                                 </button>
                             </div>
-                            <app-show-errors [control]="incidentForm.controls.dateReleaseDiscovered"  [submitClicked]="submitClicked"></app-show-errors>
+                            
                         </div>
                         <!-- /Date Released Discovered -->
                         <!-- SiteType FacilityId -->
@@ -481,10 +482,18 @@
                                         </div>
                                     </div>
                                 </div>
-                               <!--  end of contaminants
-                                -->
+                               <!--  end of contaminants -->
     
-    
+                             <!-- show Contaminant errors  -->
+                             <div *ngIf="showContaminantErrorMessage; then showContaminantErrorMessage"></div>
+                             <ng-template #showContaminantErrorMessage> 
+                                 <ngb-alert *ngIf="!isContaminantClosed" [type]="warning" class="fade show hide-the" (close)="isContaminantClosed=true">
+                                     <div class="form-group row">
+                                         <app-show-all-messages [messages]="contaminantErrorMessages" [submitClicked]="submitClicked"></app-show-all-messages>
+                                     </div>
+                                 </ngb-alert>
+                             </ng-template>
+                             <!-- /show Contaminant errors  -->   
     
     
     
@@ -536,7 +545,19 @@
                                     </div>
                                 </div>
                             </div>
-    
+
+                            <!-- show Contaminant errors  -->
+                            <div *ngIf="showMediaErrorMessage; then showMediaErrorMessage"></div>
+                            <ng-template #showMediaErrorMessage> 
+                                <ngb-alert *ngIf="!isMediaClosed" [type]="warning" class="fade show hide-the" (close)="isMediaClosed=true">
+                                    <div class="form-group row">
+                                        <app-show-all-messages [messages]="mediaErrorMessages" [submitClicked]="submitClicked"></app-show-all-messages>
+                                    </div>
+                                </ngb-alert>
+                            </ng-template>
+                            <!-- /show Contaminant errors  -->
+
+
                             <p class="text-left font-weight-bold pl-1" style="background-color: darkSeaGreen">Site Comments</p>
                             <!-- Site Comments -->
                             <div class="form-row mt-4">
@@ -549,11 +570,11 @@
 
 
                         <!-- show errors  -->
-                        <div *ngIf="showAllErrorMessages; then showAllErrorMessages"></div>
-                        <ng-template #showAllErrorMessages> 
-                            <ngb-alert *ngIf="!isClosed" [type]="warning" class="fade show hide-the" (close)="isClosed=true">
+                        <div *ngIf=" showAllErrorsMessages; then showAllErrorsMessages"></div>
+                        <ng-template #showAllErrorsMessages> 
+                            <ngb-alert *ngIf="!isClosed" [type]="warning" (close)="isClosed=true">
                                 <div class="form-group row">
-                                    <app-show-all-messages [messages]="errors"></app-show-all-messages>
+                                    <app-show-all-messages [messages]="findInvalidControls()"  [submitClicked]="submitClicked"></app-show-all-messages>
                                 </div>
                             </ngb-alert>
                         </ng-template>
@@ -565,8 +586,6 @@
                             <div class="col-sm-3">
                                 <button type="submit" class="btn btn-success btn-md btn-block" >Submit</button>
                                 <!-- <button type="submit" class="btn btn-success btn-md btn-block" [disabled]="!incidentForm.valid">Submit</button> -->
-                                <!-- <button type="submit" class="btn btn-success btn-md btn-block" [disabled]="!incidentForm.valid">Submit</button> -->
-                                <!-- <button type="submit" class="btn btn-success btn-md btn-block" >Submit</button> -->
                             </div>
                             <div class="col-sm-3">
                                 <button type="button" class="btn btn-default btn-md btn-block" (click)="resetForm()">Reset</button>

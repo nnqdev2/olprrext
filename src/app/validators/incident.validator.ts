@@ -19,7 +19,7 @@ export class IncidentValidators {
     } else {
       // console.error('************selectOneOrMoreMedia no value checked');
       return {
-          oneOrMoreMedia: true
+          selectOneOrMoreMedias: true
       };
     }
     // return email.value === confirm.value ? null : { nomatch: true };

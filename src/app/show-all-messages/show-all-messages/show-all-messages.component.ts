@@ -8,6 +8,8 @@ import { Component, OnInit, Input } from '@angular/core';
 export class ShowAllMessagesComponent implements OnInit {
   @Input()
   private messages: [any];
+  @Input()
+  private submitClicked: boolean;
 
   constructor() { }
 
@@ -15,7 +17,7 @@ export class ShowAllMessagesComponent implements OnInit {
   }
 
   shouldShowErrors(): boolean {
-    return (this.messages !== null);
+    return (this.messages !== null && this.submitClicked);
   }
 
 }
