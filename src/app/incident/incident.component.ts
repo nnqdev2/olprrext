@@ -18,13 +18,13 @@ import { StreetType } from '../models/street-type';
 import { Incident } from '../models/incident';
 import { IncidentValidators } from '../validators/incident.validator';
 import { ConfigService } from '../shared/config.service';
-import { IdToNameDataService } from './id-to-name-data.service';
+import { IdToNameService } from './id-to-name.service';
 
 @Component({
   selector: 'app-incident',
   templateUrl: './incident.component.html',
   styleUrls: ['./incident.component.css'],
-  providers: [ DatePipe, IncidentDataService, IdToNameDataService ]
+  providers: [ DatePipe, IncidentDataService, IdToNameService ]
 })
 
 export class IncidentComponent implements OnInit {
@@ -60,7 +60,7 @@ export class IncidentComponent implements OnInit {
   errors: any[];
 
   constructor(private incidentDataService: IncidentDataService, private formBuilder: FormBuilder, private datePipe: DatePipe
-    , private configService: ConfigService, private idToNameService: IdToNameDataService) {}
+    , private configService: ConfigService, private idToNameService: IdToNameService) {}
 
 
   ngOnInit() {
