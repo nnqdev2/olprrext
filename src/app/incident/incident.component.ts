@@ -79,77 +79,75 @@ export class IncidentComponent implements OnInit {
 
   createForm() {
     this.incidentForm = this.formBuilder.group({
-      contractorUid:  [''],
-      contractorPwd:  [''],
-      reportedBy:  ['', Validators.required],
-      reportedByPhone:  ['', Validators.required],
-      reportedByEmail: ['', [Validators.required, Validators.email]],
-      releaseType:  ['', Validators.required],
-      dateReceived:  [{value: '', disabled: true,  validators: Validators.required}],
-      facilityId: [''],
-      siteName:  ['', Validators.required],
-      siteCounty:  ['', Validators.required],
-      streetNbr: ['', Validators.required],
-      streetQuad:  ['', Validators.required],
-      streetName:  ['', Validators.required],
-      streetType: ['', Validators.required],
-      siteAddress:  [''],
-      siteCity:  ['', Validators.required],
-      siteZipcode: ['', Validators.required],
-      sitePhone:  [''],
-      company:  ['', Validators.required],
-      initialComment:  ['', Validators.maxLength(710)],
-      discoveryDate: ['', Validators.required],
-      confirmationCode:  ['', Validators.required],
-      discoveryCode:  ['', Validators.required],
-      causeCode: ['', Validators.required],
-      sourceId:  ['', Validators.required],
-      rpFirstName:  ['', Validators.required],
-      rpLastName: ['', Validators.required],
-      rpOrganization:  ['', Validators.required],
-      rpAddress:  ['', Validators.required],
-      rpAddress2: [''],
-      rpCity:  ['', Validators.required],
-      rpState:  ['', Validators.required],
-      rpZipcode: ['', Validators.required],
-      rpPhone:  ['', Validators.required],
-      rpEmail:  ['', [Validators.email]],
-      icFirstName:  ['', Validators.required],
-      icLastName: ['', Validators.required],
-      icOrganization:  ['', Validators.required],
-      icAddress:  [''],
-      icAddress2: [''],
-      icCity:  ['', Validators.required],
-      icState:  ['', Validators.required],
-      icZipcode: ['', Validators.required],
-      icPhone:  ['', Validators.required],
-      icEmail:  ['', [Validators.email]],
-      groundWater: [''],
-      surfaceWater: [''],
-      drinkingWater: [''],
-      soil: [''],
-      vapor: [''],
-      freeProduct: [''],
-      unleadedGas: [''],
-      leadedGas: [''],
-      misGas: [''],
-      diesel: [''],
-      wasteOil: [''],
-      heatingOil: [''],
-      lubricant: [''],
-      solvent: [''],
-      otherPet: [''],
-      chemical: [''],
-      unknown: [''],
-      mtbe: [''],
-      submitDateTime: [''],
-      deqOffice: ['']
-    },
-    {validator: [IncidentValidators.selectOneOrMoreMedia, IncidentValidators.selectOneOrMoreContaminants] }
-  );
-    this.incidentForm.patchValue({
-      dateReceived: this.datePipe.transform(new Date(), 'MM-dd-yyyy')
-    });
+        contractorUid:  [''],
+        contractorPwd:  [''],
+        reportedBy:  ['', Validators.required],
+        reportedByPhone:  ['', Validators.required],
+        reportedByEmail: ['', [Validators.required, Validators.email]],
+        releaseType:  ['', Validators.required],
+        dateReceived:  [{value: '', disabled: true},  Validators.required],
+        facilityId: [''],
+        siteName:  ['', Validators.required],
+        siteCounty:  ['', Validators.required],
+        streetNbr: ['', Validators.required],
+        streetQuad:  ['', Validators.required],
+        streetName:  ['', Validators.required],
+        streetType: ['', Validators.required],
+        siteAddress:  [''],
+        siteCity:  ['', Validators.required],
+        siteZipcode: ['', Validators.required],
+        sitePhone:  [''],
+        company:  ['', Validators.required],
+        initialComment:  ['', Validators.maxLength(710)],
+        discoveryDate: ['', Validators.required],
+        confirmationCode:  ['', Validators.required],
+        discoveryCode:  ['', Validators.required],
+        causeCode: ['', Validators.required],
+        sourceId:  ['', Validators.required],
+        rpFirstName:  ['', Validators.required],
+        rpLastName: ['', Validators.required],
+        rpOrganization:  ['', Validators.required],
+        rpAddress:  ['', Validators.required],
+        rpAddress2: [''],
+        rpCity:  ['', Validators.required],
+        rpState:  ['', Validators.required],
+        rpZipcode: ['', Validators.required],
+        rpPhone:  ['', Validators.required],
+        rpEmail:  ['', [Validators.email]],
+        icFirstName:  ['', Validators.required],
+        icLastName: ['', Validators.required],
+        icOrganization:  ['', Validators.required],
+        icAddress:  [''],
+        icAddress2: [''],
+        icCity:  ['', Validators.required],
+        icState:  ['', Validators.required],
+        icZipcode: ['', Validators.required],
+        icPhone:  ['', Validators.required],
+        icEmail:  ['', [Validators.email]],
+        groundWater: [''],
+        surfaceWater: [''],
+        drinkingWater: [''],
+        soil: [''],
+        vapor: [''],
+        freeProduct: [''],
+        unleadedGas: [''],
+        leadedGas: [''],
+        misGas: [''],
+        diesel: [''],
+        wasteOil: [''],
+        heatingOil: [''],
+        lubricant: [''],
+        solvent: [''],
+        otherPet: [''],
+        chemical: [''],
+        unknown: [''],
+        mtbe: [''],
+        submitDateTime: [''],
+        deqOffice: ['']
+      },
+      {validator: [IncidentValidators.selectOneOrMoreMedia, IncidentValidators.selectOneOrMoreContaminants] }
+    );
+    this.resetDate();
   }
 
   setShowContactInvoice() {
@@ -327,8 +325,15 @@ export class IncidentComponent implements OnInit {
     this.mediaErrorMessage = null;
   }
 
+  resetDate(): void {
+    this.incidentForm.patchValue({
+      dateReceived: this.datePipe.transform(new Date(), 'MM-dd-yyyy')
+    });
+  }
+
   resetForm(): void {
     this.incidentForm.reset();
+    this.resetDate();
     this.resetFlags();
   }
 
