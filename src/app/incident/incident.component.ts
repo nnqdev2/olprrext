@@ -124,24 +124,24 @@ export class IncidentComponent implements OnInit {
         icZipcode: ['', Validators.required],
         icPhone:  ['', Validators.required],
         icEmail:  ['', [Validators.email]],
-        groundWater: [''],
-        surfaceWater: [''],
-        drinkingWater: [''],
-        soil: [''],
-        vapor: [''],
-        freeProduct: [''],
-        unleadedGas: [''],
-        leadedGas: [''],
-        misGas: [''],
-        diesel: [''],
-        wasteOil: [''],
-        heatingOil: [''],
-        lubricant: [''],
-        solvent: [''],
-        otherPet: [''],
-        chemical: [''],
-        unknown: [''],
-        mtbe: [''],
+        groundWater: [0],
+        surfaceWater: [0],
+        drinkingWater: [0],
+        soil: [0],
+        vapor: [0],
+        freeProduct: [0],
+        unleadedGas: [0],
+        leadedGas: [0],
+        misGas: [0],
+        diesel: [0],
+        wasteOil: [0],
+        heatingOil: [0],
+        lubricant: [0],
+        solvent: [0],
+        otherPet: [0],
+        chemical: [0],
+        unknown: [0],
+        mtbe: [0],
         submitDateTime: [''],
         deqOffice: ['']
       },
@@ -198,6 +198,7 @@ export class IncidentComponent implements OnInit {
     }
   }
   createIncident(): void {
+    this.updateBooleanToNumber();
     this.incidentForm.controls.deqOffice.setValue(this.getDeqOffice());
     this.incidentForm.controls.contractorUid.setValue(environment.contractor_uid);
     this.incidentForm.controls.contractorPwd.setValue(environment.contractor_pwd);
@@ -207,24 +208,27 @@ export class IncidentComponent implements OnInit {
       + `${this.incidentForm.controls.streetType.value} `);
 
 
+    console.log('****debug dateReceived, discoverDate ');
+    console.log(this.incidentForm.controls.dateReceived.value);
+    console.log(this.incidentForm.controls.discoveryDate.value);
+
+
     const ngbDate = this.incidentForm.controls['discoveryDate'].value;
-    const myDate = new Date(ngbDate.year, ngbDate.month, ngbDate.day);
+    const myDate = new Date(ngbDate.year, ngbDate.month - 1, ngbDate.day);
     this.incidentForm.controls['discoveryDate'].setValue(myDate);
     this.incidentForm.controls['submitDateTime'].setValue(myDate);
 
     console.log('*********this.incidentForm is ');
-    console.log(this.incidentForm);
+    console.log(this.incidentForm.value);
     console.log('*********this.incident is ' );
     console.log( JSON.stringify(this.incident));
 
+
+    this.incident.dateReceived = (this.incidentForm.controls.dateReceived.value);
     // Copy the form values over the product object values
     const p = Object.assign({}, this.incident, this.incidentForm.value);
 
     console.log('*********p is ' + JSON.stringify(p));
-
-    console.error('********************************');
-    console.error(this.incidentForm.controls.groundWater.value);
-    console.error(this.incidentForm.controls.groundWater.errors);
 
     this.incidentDataService.createIncident(p)
         .subscribe(
@@ -236,11 +240,12 @@ export class IncidentComponent implements OnInit {
   onCreateComplete(): void {
     // Reset the form to clear the flags
     console.log('ok did it hip hip hoorayyy!!!!');
-    this.incidentForm.reset();
-    this.resetFlags();
-    this.incidentForm.patchValue({
-      dateReceived: this.datePipe.transform(new Date(), 'MM-dd-yyyy')
-    });
+    this.resetForm();
+    // this.incidentForm.reset();
+    // this.resetFlags();
+    // this.incidentForm.patchValue({
+    //   dateReceived: this.datePipe.transform(new Date(), 'MM-dd-yyyy')
+    // });
   }
 
   getAppConfig() {
@@ -332,9 +337,14 @@ export class IncidentComponent implements OnInit {
   }
 
   resetForm(): void {
+    // this.incidentForm.reset();
+    // this.resetFlags();
+    // this.incidentForm.patchValue({
+    //   dateReceived: this.datePipe.transform(new Date(), 'MM-dd-yyyy')
+    // });
     this.incidentForm.reset();
-    this.resetDate();
     this.resetFlags();
+    this.resetDate();
   }
 
   populateTestData(): void {
@@ -383,24 +393,24 @@ export class IncidentComponent implements OnInit {
     icZipcode: '97224',
     icPhone:  '9098087777',
     icEmail:  'r@v.y',
-    groundWater: 1,
-    surfaceWater: 1,
-    drinkingWater: 1,
-    soil: 1,
-    vapor: 1,
-    freeProduct: 1,
-    unleadedGas: 1,
-    leadedGas: 1,
-    misGas: 1,
-    diesel: 1,
-    wasteOil: 1,
-    heatingOil: 1,
-    lubricant: 1,
-    solvent: 1,
-    otherPet: 1,
-    chemical: 1,
-    unknown: 1,
-    mtbe: 1,
+    // groundWater: 1,
+    // surfaceWater: 1,
+    // drinkingWater: 1,
+    // soil: 1,
+    // vapor: 1,
+    // freeProduct: 1,
+    // unleadedGas: 1,
+    // leadedGas: 1,
+    // misGas: 1,
+    // diesel: 1,
+    // wasteOil: 1,
+    // heatingOil: 1,
+    // lubricant: 1,
+    // solvent: 1,
+    // otherPet: 1,
+    // chemical: 1,
+    // unknown: 1,
+    // mtbe: 1,
     submitDatetime: new Date()
   });
 
@@ -467,7 +477,7 @@ export class IncidentComponent implements OnInit {
   private getMediaErrorMessage(): string {
     if (this.incidentForm.controls.groundWater.value || this.incidentForm.controls.surfaceWater.value ||
       this.incidentForm.controls.drinkingWater.value || this.incidentForm.controls.soil.value ||
-      this.incidentForm.controls.vapor.value || this.incidentForm.controls.freeProduct.value 
+      this.incidentForm.controls.vapor.value || this.incidentForm.controls.freeProduct.value
     ) { return null; } else {
       this.showMediaErrorMessage = true;
       return('Must select at least one Media.');
@@ -499,5 +509,139 @@ export class IncidentComponent implements OnInit {
     }
 
 
-  // }
+    private updateBooleanToNumber() {
+      // for (const field of Object.keys(this.incidentForm.controls)) {
+      //   if ( typeof this.incidentForm.controls[field].value === 'boolean') {
+      //     console.log('************updateBooleanToNumber() boolean boolean');
+      //     console.log(field);
+      //     const xx = this.incidentForm.controls[field].value;
+      //     if (xx) {
+      //       this.incidentForm.controls[field].setValue(1);
+      //     } else {
+      //       this.incidentForm.controls[field].setValue(0);
+      //     }
+      //   }
+      // )
+      if (this.incidentForm.controls.groundWater.value === false) {
+        this.incidentForm.controls.groundWater.setValue(0);
+      }
+      if (this.incidentForm.controls.groundWater.value === true) {
+        this.incidentForm.controls.groundWater.setValue(1);
+      }
+      if (this.incidentForm.controls.surfaceWater.value === false) {
+        this.incidentForm.controls.surfaceWater.setValue(0);
+      }
+      if (this.incidentForm.controls.surfaceWater.value === true) {
+        this.incidentForm.controls.surfaceWater.setValue(1);
+      }
+      if (this.incidentForm.controls.drinkingWater.value === false) {
+        this.incidentForm.controls.drinkingWater.setValue(0);
+      }
+      if (this.incidentForm.controls.drinkingWater.value === true) {
+        this.incidentForm.controls.drinkingWater.setValue(1);
+      }
+      if (this.incidentForm.controls.soil.value === false) {
+        this.incidentForm.controls.soil.setValue(0);
+      }
+      if (this.incidentForm.controls.soil.value === true) {
+        this.incidentForm.controls.soil.setValue(1);
+      }
+      if (this.incidentForm.controls.vapor.value === false) {
+        this.incidentForm.controls.vapor.setValue(0);
+      }
+      if (this.incidentForm.controls.vapor.value === true) {
+        this.incidentForm.controls.vapor.setValue(1);
+      }
+      if (this.incidentForm.controls.freeProduct.value === false) {
+        this.incidentForm.controls.freeProduct.setValue(0);
+      }
+      if (this.incidentForm.controls.freeProduct.value === true) {
+        this.incidentForm.controls.freeProduct.setValue(1);
+      }
+
+      if (this.incidentForm.controls.unleadedGas.value === false) {
+        this.incidentForm.controls.unleadedGas.setValue(0);
+      }
+      if (this.incidentForm.controls.unleadedGas.value === true) {
+        this.incidentForm.controls.unleadedGas.setValue(1);
+      }
+      if (this.incidentForm.controls.leadedGas.value === false) {
+        this.incidentForm.controls.leadedGas.setValue(0);
+      }
+      if (this.incidentForm.controls.leadedGas.value === true) {
+        this.incidentForm.controls.leadedGas.setValue(1);
+      }
+
+
+      if (this.incidentForm.controls.misGas.value === false) {
+        this.incidentForm.controls.misGas.setValue(0);
+      }
+      if (this.incidentForm.controls.misGas.value === true) {
+        this.incidentForm.controls.misGas.setValue(1);
+      }
+      if (this.incidentForm.controls.diesel.value === false) {
+        this.incidentForm.controls.diesel.setValue(0);
+      }
+      if (this.incidentForm.controls.diesel.value === true) {
+        this.incidentForm.controls.diesel.setValue(1);
+      }
+
+
+      if (this.incidentForm.controls.wasteOil.value === false) {
+        this.incidentForm.controls.wasteOil.setValue(0);
+      }
+      if (this.incidentForm.controls.wasteOil.value === true) {
+        this.incidentForm.controls.wasteOil.setValue(1);
+      }
+      if (this.incidentForm.controls.heatingOil.value === false) {
+        this.incidentForm.controls.heatingOil.setValue(0);
+      }
+      if (this.incidentForm.controls.heatingOil.value === true) {
+        this.incidentForm.controls.heatingOil.setValue(1);
+      }
+
+
+      if (this.incidentForm.controls.lubricant.value === false) {
+        this.incidentForm.controls.lubricant.setValue(0);
+      }
+      if (this.incidentForm.controls.lubricant.value === true) {
+        this.incidentForm.controls.lubricant.setValue(1);
+      }
+      if (this.incidentForm.controls.solvent.value === false) {
+        this.incidentForm.controls.solvent.setValue(0);
+      }
+      if (this.incidentForm.controls.solvent.value === true) {
+        this.incidentForm.controls.solvent.setValue(1);
+      }
+
+
+      if (this.incidentForm.controls.otherPet.value === false) {
+        this.incidentForm.controls.otherPet.setValue(0);
+      }
+      if (this.incidentForm.controls.otherPet.value === true) {
+        this.incidentForm.controls.otherPet.setValue(1);
+      }
+      if (this.incidentForm.controls.chemical.value === false) {
+        this.incidentForm.controls.chemical.setValue(0);
+      }
+      if (this.incidentForm.controls.chemical.value === true) {
+        this.incidentForm.controls.chemical.setValue(1);
+      }
+
+
+      if (this.incidentForm.controls.unknown.value === false) {
+        this.incidentForm.controls.unknown.setValue(0);
+      }
+      if (this.incidentForm.controls.unknown.value === true) {
+        this.incidentForm.controls.unknown.setValue(1);
+      }
+      if (this.incidentForm.controls.mtbe.value === false) {
+        this.incidentForm.controls.mtbe.setValue(0);
+      }
+      if (this.incidentForm.controls.mtbe.value === true) {
+        this.incidentForm.controls.mtbe.setValue(1);
+      }
+
+    }
+
 }

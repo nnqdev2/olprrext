@@ -485,14 +485,14 @@
                                <!--  end of contaminants -->
     
                              <!-- show Contaminant errors  -->
-                             <div *ngIf="showContaminantErrorMessage; then showContaminantErrorMessage"></div>
+                             <!-- <div *ngIf="showContaminantErrorMessage; then showContaminantErrorMessage"></div>
                              <ng-template #showContaminantErrorMessage> 
                                  <ngb-alert *ngIf="!isContaminantClosed" [type]="warning" class="fade show hide-the" (close)="isContaminantClosed=true">
                                      <div class="form-group row">
                                          <app-show-all-messages [messages]="contaminantErrorMessages" [submitClicked]="submitClicked"></app-show-all-messages>
                                      </div>
                                  </ngb-alert>
-                             </ng-template>
+                             </ng-template> -->
                              <!-- /show Contaminant errors  -->   
     
     
@@ -547,14 +547,14 @@
                             </div>
 
                             <!-- show Contaminant errors  -->
-                            <div *ngIf="showMediaErrorMessage; then showMediaErrorMessage"></div>
+                            <!-- <div *ngIf="showMediaErrorMessage; then showMediaErrorMessage"></div>
                             <ng-template #showMediaErrorMessage> 
                                 <ngb-alert *ngIf="!isMediaClosed" [type]="warning" class="fade show hide-the" (close)="isMediaClosed=true">
                                     <div class="form-group row">
                                         <app-show-all-messages [messages]="mediaErrorMessages" [submitClicked]="submitClicked"></app-show-all-messages>
                                     </div>
                                 </ngb-alert>
-                            </ng-template>
+                            </ng-template> -->
                             <!-- /show Contaminant errors  -->
 
 
