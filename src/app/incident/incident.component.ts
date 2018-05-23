@@ -66,27 +66,15 @@ export class IncidentComponent implements OnInit {
 
 
   ngOnInit() {
-
-    console.log('******************in NGONINIT******************');
-    // console.log(this.route);
     this.route.data.subscribe((data: {siteTypes: SiteType[]}) => {this.siteTypes = data.siteTypes; });
     this.route.data.subscribe((data: {confirmationTypes: ConfirmationType[]}) => {this.confirmationTypes = data.confirmationTypes; });
+    this.route.data.subscribe((data: {counties: County[]}) => {this.counties = data.counties; });
     this.route.data.subscribe((data: {discoveryTypes: DiscoveryType[]}) => {this.discoveryTypes = data.discoveryTypes; });
     this.route.data.subscribe((data: {quadrants: Quadrant[]}) => {this.quadrants = data.quadrants; });
     this.route.data.subscribe((data: {releaseCauseTypes: ReleaseCauseType[]}) => {this.releaseCauseTypes = data.releaseCauseTypes; });
     this.route.data.subscribe((data: {sourceTypes: SourceType[]}) => {this.sourceTypes = data.sourceTypes; });
     this.route.data.subscribe((data: {states: State[]}) => {this.states = data.states; });
     this.route.data.subscribe((data: {streetTypes: StreetType[]}) => {this.streetTypes = data.streetTypes; });
-
-    // this.getSiteTypes();
-    // this.getConfirmationTypes();
-    // this.getCounties();
-    // this.getDiscoveryTypes();
-    // this.getQuadrants();
-    // this.getReleaseCauseTypes();
-    // this.getSourceTypes();
-    // this.getStates();
-    // this.getStreetTypes();
     this.createForm();
   }
 
@@ -244,7 +232,6 @@ export class IncidentComponent implements OnInit {
   }
 
   onCreateComplete(): void {
-    // Reset the form to clear the flags
     console.log('ok did it hip hip hoorayyy!!!!');
     this.resetForm();
     // this.incidentForm.reset();
@@ -252,76 +239,6 @@ export class IncidentComponent implements OnInit {
     // this.incidentForm.patchValue({
     //   dateReceived: this.datePipe.transform(new Date(), 'MM-dd-yyyy')
     // });
-  }
-
-  getAppConfig() {
-    this.incidentDataService.getConfirmationTypes().subscribe(
-      data => { this.confirmationTypes = data; },
-      err => console.error(err)
-    );
-  }
-
-  getConfirmationTypes() {
-    this.incidentDataService.getConfirmationTypes().subscribe(
-      data => { this.confirmationTypes = data; },
-      err => console.error(err)
-    );
-  }
-
-  getCounties() {
-    this.incidentDataService.getCounties().subscribe(
-      data => { this.counties = data; },
-      err => console.error(err)
-    );
-  }
-
-  getDiscoveryTypes() {
-    this.incidentDataService.getDiscoveryTypes().subscribe(
-      data => { this.discoveryTypes = data; },
-      err => console.error(err)
-    );
-  }
-
-  getQuadrants() {
-    this.incidentDataService.getQuadrants().subscribe(
-      data => { this.quadrants = data; },
-      err => console.error(err)
-    );
-  }
-
-  getReleaseCauseTypes() {
-    this.incidentDataService.getReleaseCauseTypes().subscribe(
-      data => { this.releaseCauseTypes = data; },
-      err => console.error(err)
-    );
-  }
-
-  getSiteTypes() {
-    this.incidentDataService.getSiteTypes().subscribe(
-      data => { this.siteTypes = data; },
-      err => console.error(err)
-    );
-  }
-
-  getSourceTypes() {
-    this.incidentDataService.getSourceTypes().subscribe(
-      data => { this.sourceTypes = data; },
-      err => console.error(err)
-    );
-  }
-
-  getStates() {
-    this.incidentDataService.getStates().subscribe(
-      data => { this.states = data; },
-      err => console.error(err)
-    );
-  }
-
-  getStreetTypes() {
-    this.incidentDataService.getStreetTypes().subscribe(
-      data => { this.streetTypes = data; },
-      err => console.error(err)
-    );
   }
 
   resetFlags() {
