@@ -48,8 +48,8 @@
                                 <select class="form-control" id="releaseType" formControlName="releaseType" (click)="setShowContactInvoice()" >
                                     <option value=""></option>
                                     <option *ngFor="let siteType of siteTypes" 
-                                            [value]="siteType.siteTypeCode" >
-                                            {{siteType.siteType}}
+                                            [value]="siteType?.siteTypeCode" >
+                                            {{siteType?.siteType}}
                                     </option>
                                 </select>    
                                 <app-show-errors [control]="incidentForm.controls.releaseType"  [submitClicked]="submitClicked"></app-show-errors>                            
@@ -79,8 +79,8 @@
                                     <select class="form-control" id="siteCounty" formControlName="siteCounty" >
                                         <option selected="selected" value=""></option>
                                         <option *ngFor="let county of counties" 
-                                        [value]="county.countyCode" >
-                                        {{county.countyName}}
+                                        [value]="county?.countyCode" >
+                                        {{county?.countyName}}
                                         </option>
                                     </select>                                    
                                 </div>
@@ -101,8 +101,8 @@
                                     <select class="form-control" id="streetQuad" formControlName="streetQuad">
                                             <option selected="selected" value=""></option>
                                             <option *ngFor="let quadrant of quadrants" 
-                                            [value]="quadrant.quadrant" >
-                                            {{quadrant.quadrant}}
+                                            [value]="quadrant?.quadrant" >
+                                            {{quadrant?.quadrant}}
                                             </option>
                                     </select>                                    
                                 </div>
@@ -119,8 +119,8 @@
                                         <select class="form-control" id="streetType" formControlName="streetType" >
                                                 <option selected="selected" value=""></option>
                                                 <option *ngFor="let streetType of streetTypes" 
-                                                [value]="streetType.streetType" >
-                                                {{streetType.streetType}}
+                                                [value]="streetType?.streetType" >
+                                                {{streetType?.streetType}}
                                                 </option>
                                         </select>                                        
                                     </div>
@@ -235,8 +235,8 @@
                                                 <option selected="selected" value=""></option>
                                                 <option selected="selected" value=""></option>
                                                 <option *ngFor="let state of states" 
-                                                [value]="state.stateCode" >
-                                                {{state.stateName}}
+                                                [value]="state?.stateCode" >
+                                                {{state?.stateName}}
                                                 </option>                                               
                                         </select>
                                     </div>
@@ -259,7 +259,7 @@
                         
                             <div class="form-group row">
                                 <div class="col-sm-4">
-                                    <button type="button"   class=" btn btn-md btn-block" (click)="copyResponsibleToInvoice(incidentForm)">Copy Responsible Party information</button>
+                                    <button type="button" class=" btn btn-md btn-block" (click)="copyResponsibleToInvoice(incidentForm)">Copy Responsible Party information</button>
                                 </div>
                             </div>
                        
@@ -313,8 +313,8 @@
                                         <select class="form-control" id="icState"  formControlName="icState" >
                                                 <option selected="selected" value=""></option>
                                                 <option *ngFor="let state of states" 
-                                                [value]="state.stateCode" >
-                                                {{state.stateName}}
+                                                [value]="state?.stateCode" >
+                                                {{state?.stateName}}
                                                 </option>                                               
                                         </select>
                                     </div>
@@ -354,8 +354,8 @@
                                         <select class="form-control" id="discoveryCode" formControlName="discoveryCode" >
                                                 <option selected="selected" value=""></option>
                                                 <option *ngFor="let discoveryType of discoveryTypes" 
-                                                [value]="discoveryType.discoveryCode" >
-                                                {{discoveryType.discoveryDescription}}
+                                                [value]="discoveryType?.discoveryCode" >
+                                                {{discoveryType?.discoveryDescription}}
                                                 </option>     
                                             </select>  
                                     </div>
@@ -367,8 +367,8 @@
                                         <select class="form-control" id="releaseCauseCode" formControlName="causeCode">
                                                 <option selected="selected" value=""></option>
                                                 <option *ngFor="let releaseCauseType of releaseCauseTypes" 
-                                                [value]="releaseCauseType.releaseCauseCode" >
-                                                {{releaseCauseType.releaseCauseDescription}}
+                                                [value]="releaseCauseType?.releaseCauseCode" >
+                                                {{releaseCauseType?.releaseCauseDescription}}
                                                 </option>     
                                             </select>  
                                     </div>
@@ -380,8 +380,8 @@
                                         <select class="form-control" id="sourceId"  formControlName="sourceId">
                                                 <option selected="selected" value=""></option>
                                                 <option *ngFor="let sourceType of sourceTypes" 
-                                                [value]="sourceType.releaseSourceId" >
-                                                {{sourceType.releaseSourceDescription}}
+                                                [value]="sourceType?.releaseSourceId" >
+                                                {{sourceType?.releaseSourceDescription}}
                                                 </option>     
                                             </select>  
                                     </div>

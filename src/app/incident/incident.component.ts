@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DatePipe} from '@angular/common';
 import { environment } from '../../environments/environment';
 import { Observable, of} from 'rxjs';
@@ -60,19 +61,32 @@ export class IncidentComponent implements OnInit {
   errors: any[];
 
   constructor(private incidentDataService: IncidentDataService, private formBuilder: FormBuilder, private datePipe: DatePipe
-    , private configService: ConfigService, private idToNameService: IdToNameService) {}
+    , private configService: ConfigService, private idToNameService: IdToNameService, private route: ActivatedRoute
+    , private router: Router) {}
 
 
   ngOnInit() {
-    this.getSiteTypes();
-    this.getConfirmationTypes();
-    this.getCounties();
-    this.getDiscoveryTypes();
-    this.getQuadrants();
-    this.getReleaseCauseTypes();
-    this.getSourceTypes();
-    this.getStates();
-    this.getStreetTypes();
+
+    console.log('******************in NGONINIT******************');
+    // console.log(this.route);
+    this.route.data.subscribe((data: {siteTypes: SiteType[]}) => {this.siteTypes = data.siteTypes; });
+    this.route.data.subscribe((data: {confirmationTypes: ConfirmationType[]}) => {this.confirmationTypes = data.confirmationTypes; });
+    this.route.data.subscribe((data: {discoveryTypes: DiscoveryType[]}) => {this.discoveryTypes = data.discoveryTypes; });
+    this.route.data.subscribe((data: {quadrants: Quadrant[]}) => {this.quadrants = data.quadrants; });
+    this.route.data.subscribe((data: {releaseCauseTypes: ReleaseCauseType[]}) => {this.releaseCauseTypes = data.releaseCauseTypes; });
+    this.route.data.subscribe((data: {sourceTypes: SourceType[]}) => {this.sourceTypes = data.sourceTypes; });
+    this.route.data.subscribe((data: {states: State[]}) => {this.states = data.states; });
+    this.route.data.subscribe((data: {streetTypes: StreetType[]}) => {this.streetTypes = data.streetTypes; });
+
+    // this.getSiteTypes();
+    // this.getConfirmationTypes();
+    // this.getCounties();
+    // this.getDiscoveryTypes();
+    // this.getQuadrants();
+    // this.getReleaseCauseTypes();
+    // this.getSourceTypes();
+    // this.getStates();
+    // this.getStreetTypes();
     this.createForm();
   }
 
@@ -206,25 +220,17 @@ export class IncidentComponent implements OnInit {
       + `${this.incidentForm.controls.streetQuad.value} `
       + `${this.incidentForm.controls.streetName.value} `
       + `${this.incidentForm.controls.streetType.value} `);
-
-
-    console.log('****debug dateReceived, discoverDate ');
-    console.log(this.incidentForm.controls.dateReceived.value);
-    console.log(this.incidentForm.controls.discoveryDate.value);
-
-
     const ngbDate = this.incidentForm.controls['discoveryDate'].value;
     const myDate = new Date(ngbDate.year, ngbDate.month - 1, ngbDate.day);
     this.incidentForm.controls['discoveryDate'].setValue(myDate);
     this.incidentForm.controls['submitDateTime'].setValue(myDate);
+    this.incident.dateReceived = (this.incidentForm.controls.dateReceived.value);
 
     console.log('*********this.incidentForm is ');
     console.log(this.incidentForm.value);
     console.log('*********this.incident is ' );
     console.log( JSON.stringify(this.incident));
 
-
-    this.incident.dateReceived = (this.incidentForm.controls.dateReceived.value);
     // Copy the form values over the product object values
     const p = Object.assign({}, this.incident, this.incidentForm.value);
 
