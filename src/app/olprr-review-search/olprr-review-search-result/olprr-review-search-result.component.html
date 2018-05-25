@@ -1,0 +1,32 @@
+<div class="container">
+  <p>Search Results: {{olprrReviewSearchResults?.length}}<p>
+  <table class="container table table-bordered table-hover">
+    <thead>
+      <tr>
+        <th>OLPRRID</th>
+        <th>Release Type</th>
+        <th>Received Date</th>
+        <th>Reported By</th>
+        <th>Company Name</th>
+        <th>Email Address</th>
+        <th>Site Name</th>
+        <th>Site County</th>
+        <th>Site Address</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let olprrReviewSearchResult of olprrReviewSearchResults"  [class.selected]="olprrReviewSearchResult === selectedOlprrReviewSearchResult"
+      (click)="onSelect(olprrReviewSearchResult)">
+        <td class="col-xs-6 pb-2">{{olprrReviewSearchResult.olprrId}}</td>
+        <td>{{olprrReviewSearchResult.releaseType}}</td>
+        <td>{{olprrReviewSearchResult.receivedDate}}</td>
+        <td>{{olprrReviewSearchResult.reportedBy}}</td>
+        <td>{{olprrReviewSearchResult.companyName}}</td>
+        <td>{{olprrReviewSearchResult.emailAddress}}</td>
+        <td>{{olprrReviewSearchResult.siteName}}</td>
+        <td>{{olprrReviewSearchResult.siteCounty}}</td>
+        <td>{{olprrReviewSearchResult.siteAddress}}</td>
+      </tr>
+    </tbody>
+  </table>
+/div>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+    <head>
+        <title>OLPRR Review Search Filter</title>
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    </head>
+
+    <body>
+    <!-- table lustReportingTable  -->
+        <!-- <table id="lustReportingTable"> -->
+            <div class="container-fluid">   
+                <div class="row">
+                    <h2 class="display-5 text-left m-4">OLPRR Review Search</h2>
+                </div>
+                <!-- <div class="form-row mt-4 container-fluid"></div> -->
+                <div class="form-row mt-1 container-fluid">
+                   <!-- Form lustSearchForm begins -->
+                    <form [formGroup]="olprrReviewSearchFilterForm" class="form-group" role="form" autocomplete="off" method="POST"  (ngSubmit)="submitOlprrReviewSearchFilterForm()">
+                        <!--logNbr thru  zipCode -->
+                        <div class="form-row ">
+                          <!-- deqOFfice -->  
+                          <div class="form-group col-xs-6 pb-3">
+                            <label  class="control-label" for="deqOFfice">DEQ OFFICE</label>
+                            <div class="input-group">
+                              <select class="form-control" id="deqOFfice" formControlName="office" >
+                                <option selected="selected" value=""></option>
+                                <option value="NWR">Northwest Region</option>
+                                <option value="SLM">Salem</option>
+                                <option value="DAL">Dallas</option>
+                                <option value="MDF">Medford</option>
+                              </select>                                    
+                            </div>
+                          </div>   
+                          <!-- /deqOFfice -->   
+                          <!-- reviewType -->  
+                          <div class="form-group col-xs-6 pb-2">
+                              <label  class="control-label" for="reviewType">Status</label>
+                              <div class="input-group">
+                                <select class="form-control" id="reviewType" formControlName="status" >
+                                  <!-- <option selected="selected" value=""></option> -->
+                                  <option selected="selected" value="NEW">NEW</option>
+                                  <option value="HOLD">HOLD</option>
+                                  <option value="ACCEPT">ACCEPTED</option>
+                                  <option value="DECLINE">DECLINED</option>
+                                </select>
+                              </div>
+                          </div>
+                        </div> 
+                    <div class="form-group row">
+                        <div class="col-sm-3 col-md-3 col-lg-3">
+                            <button type="submit" class="btn btn-success btn-md btn-block" >Search</button>
+                        </div>
+                        <div class="col-sm-3">
+                            <button type="button" class="btn btn-default btn-md btn-block" (click)="submitOlprrReviewSearchFilterForm()">Clear</button>
+                        </div>
+                    </div>
+
+                  <pre>olprrReviewSearchFilterForm: {{ olprrReviewSearchFilterForm.value | json }}</pre>
+                </form>
+                <!-- Form lustSearchFilterForm ends --> 
+                </div>
+            </div> 
+            <div *ngIf="showOlprrReviewSearchResultsFlag; then showResultComp else showLoading">  </div> 
+            <ng-template #showResultComp>
+                <app-olprr-review-search-result [olprrReviewSearchResults]="olprrReviewSearchResults"></app-olprr-review-search-result>
+            </ng-template>
+            <ng-template #showLoading>
+                <p>loading search results ...</p>
+            </ng-template>
+    </body>
+
+
+</html>

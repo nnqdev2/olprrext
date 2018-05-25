@@ -10,6 +10,8 @@
     "sourcetypeUrl": "sourcetype",
     "stateUrl": "state",
     "streettypeUrl": "streettype",
-    "incidentUrl": "incident"
+    "incidentUrl": "incident",
+    "deqOffices": "NWR,DAL,SLM,EUG,MDG",
+    "olprrReviewType": "NEW,HOLD,ACCEPTED,DECLINE"
   }
 

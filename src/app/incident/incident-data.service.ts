@@ -65,6 +65,7 @@ export class IncidentDataService {
     return this.http.post<Incident>(environment.olprrapi_incident, incident);
   }
 
+
   // Uses http.get() to load data from a single API endpoint
   // getSiteTypes(): Observable<SiteType[]> {
   //   return this.http.get<SiteType[]>(this._siteTypeUrl, httpOptions)

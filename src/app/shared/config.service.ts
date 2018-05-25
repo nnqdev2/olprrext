@@ -1,19 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-
 import { Observable } from 'rxjs';
-// import { catchError, retry, tap } from 'rxjs/operators';
-
-
-// import 'rxjs/add/observable/of';
-// import 'rxjs/add/operator/map';
-// import 'rxjs/add/operator/catch';
-// import 'rxjs/add/observable/throw';
-// import 'rxjs/operator/map';
-// import 'rxjs/operator/catch';
-// import 'rxjs/observable/throw';
-
 import { LogPublisher, LogConsole, LogLocalStorage, LogWebApi, LogPublisherConfig } from './log-publishers';
 
 export class IConfig {
@@ -28,27 +16,36 @@ export class IConfig {
     stateUrl: string;
     streettypeUrl: string;
     incidentUrl: string;
+    deqOffices: string;
+    olprrReviewType: string;
 }
 
 const APP_CONFIG_URL = './assets/config.json';
 
 @Injectable()
-export class ConfigService {
+export class ConfigService implements OnInit {
+  // private configUrl = './assets/config.json';
+  private configs: IConfig[];
 
+  constructor(private http: HttpClient) {}
 
-  private configUrl = './assets/config.json';
-  private responseStatus: number;
+  ngOnInit(): void {
+    this.http.get<IConfig[]>(APP_CONFIG_URL)
+    .subscribe((data => {this.configs = data; }));
+    const deqOffices = (this.configs['deqOffices']);
+    console.log('****** configs');
+    console.log(this.configs);
+  }
 
-  constructor(private http: HttpClient) { }
 
   // getConfig(): Observable<IConfig> {
   //   console.error('*************** ConfigService getConfigs =====' );
   //   return this.http.get<IConfig>('./assets/config.json');
   // }
 
-  getConfig(): Observable<IConfig> {
-    console.error('*************** ConfigService getConfig' );
-    return this.http.get<IConfig>('./assets/config.json');
-  }
+  // getConfig(): Observable<IConfig> {
+  //   console.error('*************** ConfigService getConfig' );
+  //   return this.http.get<IConfig>('./assets/config.json');
+  // }
 
 }

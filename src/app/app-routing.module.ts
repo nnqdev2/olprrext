@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { IncidentComponent } from './incident/incident.component';
+import { OlprrReviewSearchFilterComponent } from './olprr-review-search/olprr-review-search-filter/olprr-review-search-filter.component';
 
 import { SiteTypesResolver } from './site-types-resolver.service';
 import { ConfirmationTypesResolver } from './confirmation-types-resolver.service';
@@ -13,16 +14,8 @@ import { StatesResolver } from './states-resolver.service';
 import { StreetTypesResolver } from './street-types-resolver.service';
 
 const routes: Routes = [
-  { path: 'search', component: IncidentComponent },
-  // { path: 'searchresults', component: SearchResultsComponent },
-  // {
-  //   path: 'search',
-  //   component: LustSearchContainerComponent,
-  //   resolve: {
-  //     data: PageResolver,
-  //   }
-  // },
-  { path: '', redirectTo: 'olprr', pathMatch: 'full' },
+  { path: '', redirectTo: 'olprrsearch', pathMatch: 'full' },
+  { path: '**', redirectTo: 'olprrsearch', pathMatch: 'full' },
   { path: 'olprr', component: IncidentComponent,
       resolve: {
         siteTypes: SiteTypesResolver,
@@ -36,7 +29,8 @@ const routes: Routes = [
         streetTypes: StreetTypesResolver,
       }
   },
-  { path: '**', redirectTo: 'olprr', pathMatch: 'full' }
+  { path: 'olprrsearch', component: OlprrReviewSearchFilterComponent },
+
 ];
 
 @NgModule({

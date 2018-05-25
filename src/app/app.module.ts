@@ -31,6 +31,8 @@ import { ReleaseCauseTypesResolver } from './release-cause-types-resolver.servic
 import { SourceTypesResolver } from './source-types-resolver.service';
 import { StatesResolver } from './states-resolver.service';
 import { StreetTypesResolver } from './street-types-resolver.service';
+import { OlprrReviewSearchFilterComponent } from './olprr-review-search/olprr-review-search-filter/olprr-review-search-filter.component';
+import { OlprrReviewSearchResultComponent } from './olprr-review-search/olprr-review-search-result/olprr-review-search-result.component';
 
 @NgModule({
   imports: [
@@ -45,7 +47,9 @@ import { StreetTypesResolver } from './street-types-resolver.service';
     IncidentComponent,
     ShowErrorsComponent,
     ShowAllMessagesComponent,
-    TestComponent
+    TestComponent,
+    OlprrReviewSearchFilterComponent,
+    OlprrReviewSearchResultComponent
   ],
   providers: [
     httpInterceptorProviders,
