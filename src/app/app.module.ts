@@ -21,6 +21,8 @@ import { ShowAllMessagesComponent } from './show-all-messages/show-all-messages/
 import { TestComponent } from './test/test/test.component';
 
 import { IncidentDataService } from './incident/incident-data.service';
+import { LustDataService } from './services/lust-data.service';
+import { RequestCache, RequestCacheWithMap } from './services/request-cache.service';
 
 import { SiteTypesResolver } from './site-types-resolver.service';
 import { ConfirmationTypesResolver } from './confirmation-types-resolver.service';
@@ -55,7 +57,9 @@ import { OlprrReviewSearchResultComponent } from './olprr-review-search/olprr-re
     httpInterceptorProviders,
     LogService, LogPublishersService,
     {provide: ErrorHandler, useClass: AppErrorHandler},
+    {provide: RequestCache, useClass: RequestCacheWithMap },
     ConfigService,
+    LustDataService,
     IncidentDataService,
     SiteTypesResolver,
     ConfirmationTypesResolver,
@@ -65,7 +69,7 @@ import { OlprrReviewSearchResultComponent } from './olprr-review-search/olprr-re
     ReleaseCauseTypesResolver,
     SourceTypesResolver,
     StatesResolver,
-    StreetTypesResolver
+    StreetTypesResolver,
     ],
   bootstrap: [AppComponent]
 })

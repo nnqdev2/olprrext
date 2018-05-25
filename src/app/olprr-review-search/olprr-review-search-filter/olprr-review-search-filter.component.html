@@ -8,19 +8,19 @@
 
     <body>
     <!-- table lustReportingTable  -->
-        <!-- <table id="lustReportingTable"> -->
+
             <div class="container-fluid">   
                 <div class="row">
                     <h2 class="display-5 text-left m-4">OLPRR Review Search</h2>
                 </div>
                 <!-- <div class="form-row mt-4 container-fluid"></div> -->
-                <div class="form-row mt-1 container-fluid">
+                <div class="form-row mt-6 container-fluid">
                    <!-- Form lustSearchForm begins -->
                     <form [formGroup]="olprrReviewSearchFilterForm" class="form-group" role="form" autocomplete="off" method="POST"  (ngSubmit)="submitOlprrReviewSearchFilterForm()">
                         <!--logNbr thru  zipCode -->
-                        <div class="form-row ">
+                        <div class="form-row mt-4">
                           <!-- deqOFfice -->  
-                          <div class="form-group col-xs-6 pb-3">
+                          <div class="form-group col-xs-3 ">
                             <label  class="control-label" for="deqOFfice">DEQ OFFICE</label>
                             <div class="input-group">
                               <select class="form-control" id="deqOFfice" formControlName="office" >
@@ -34,7 +34,7 @@
                           </div>   
                           <!-- /deqOFfice -->   
                           <!-- reviewType -->  
-                          <div class="form-group col-xs-6 pb-2">
+                          <div class="form-group col-xs-3 ">
                               <label  class="control-label" for="reviewType">Status</label>
                               <div class="input-group">
                                 <select class="form-control" id="reviewType" formControlName="status" >
@@ -47,6 +47,24 @@
                               </div>
                           </div>
                         </div> 
+                        <!-- /reviewType --> 
+                        <!-- Site Type -->
+                        <div class="form-group col-xs-3 mt-2">
+                            <label class="control-label" for="releaseType">Site Type</label>
+                            <select class="form-control" id="releaseType" formControlName="siteType" >
+                                <option value=""></option>
+                                <option *ngFor="let siteType of siteTypes" 
+                                        [value]="siteType?.siteTypeCode" >
+                                        {{siteType?.siteType}}
+                                </option>
+                            </select>                             
+                        </div>
+                        <!-- /Site Type -->
+                        <div class="form-group required col-xs-3 pb-3">
+                            <label class="control-label" for="olprrId">OLPRRID</label>
+                            <input type="text" class="form-control" id="olprrId" formControlName="olprrId" />
+                        </div>
+                    <!-- </div> -->
                     <div class="form-group row">
                         <div class="col-sm-3 col-md-3 col-lg-3">
                             <button type="submit" class="btn btn-success btn-md btn-block" >Search</button>
@@ -61,7 +79,7 @@
                 <!-- Form lustSearchFilterForm ends --> 
                 </div>
             </div> 
-            <div *ngIf="showOlprrReviewSearchResultsFlag; then showResultComp else showLoading">  </div> 
+            <div *ngIf="showOlprrReviewSearchResultsFlag==true; then showResultComp else showLoading">  </div> 
             <ng-template #showResultComp>
                 <app-olprr-review-search-result [olprrReviewSearchResults]="olprrReviewSearchResults"></app-olprr-review-search-result>
             </ng-template>
