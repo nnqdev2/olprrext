@@ -15,10 +15,10 @@ import { StatesResolver } from './states-resolver.service';
 import { StreetTypesResolver } from './street-types-resolver.service';
 
 const routes: Routes = [
-  // { path: '', redirectTo: 'olprrsearch', pathMatch: 'full' },
-  // { path: '**', redirectTo: 'olprrsearch', pathMatch: 'full' },
+  { path: '', redirectTo: 'olprr', pathMatch: 'full' },
+  { path: '**', redirectTo: 'olprr', pathMatch: 'full' },
   { path: 'test', component: TestComponent },
-  { path: 'incident', component: IncidentComponent,
+  { path: 'olprr', component: IncidentComponent,
       resolve: {
         siteTypes: SiteTypesResolver,
         confirmationTypes: ConfirmationTypesResolver,

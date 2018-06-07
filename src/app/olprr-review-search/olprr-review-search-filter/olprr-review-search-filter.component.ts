@@ -33,7 +33,7 @@ export class OlprrReviewSearchFilterComponent implements OnInit {
     this.createOlprrReviewSearchFilterForm();
   }
 
-  private submitOlprrReviewSearchFilterForm() {
+ submitOlprrReviewSearchFilterForm() {
       const p = Object.assign({}, this.olprrReviewSearchFilter, this.olprrReviewSearchFilterForm.value);
       console.log(JSON.stringify(p));
       this.getOlprrReviewSearchResults(p);
