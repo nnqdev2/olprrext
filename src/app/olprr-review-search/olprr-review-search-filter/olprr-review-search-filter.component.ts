@@ -43,13 +43,7 @@ export class OlprrReviewSearchFilterComponent implements OnInit {
     console.log('****SearchResultsComponent  getLustSearchResults()  ******');
     console.log(this.olprrReviewSearchFilter);
     this.olprrReviewSearchDataService.getOlprrReviewIncidents(olprrReviewSearchFilter).subscribe(
-      data => { this.olprrReviewSearchResults = data;
-                this.showOlprrReviewSearchResultsFlag = true;
-                foreach ( a in this.olprrReviewSearchResults) {
-                  console.log('%%%%%%%%%%%%%%%%%%%%%');
-                  console.log(a);
-                }
-              }
+      data => { this.olprrReviewSearchResults = data; }
     );
   }
 

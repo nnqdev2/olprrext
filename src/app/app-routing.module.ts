@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { IncidentComponent } from './incident/incident.component';
 import { OlprrReviewSearchFilterComponent } from './olprr-review-search/olprr-review-search-filter/olprr-review-search-filter.component';
+import { TestComponent } from './test/test/test.component';
 
 import { SiteTypesResolver } from './site-types-resolver.service';
 import { ConfirmationTypesResolver } from './confirmation-types-resolver.service';
@@ -16,6 +17,7 @@ import { StreetTypesResolver } from './street-types-resolver.service';
 const routes: Routes = [
   // { path: '', redirectTo: 'olprrsearch', pathMatch: 'full' },
   // { path: '**', redirectTo: 'olprrsearch', pathMatch: 'full' },
+  { path: 'test', component: TestComponent },
   { path: 'incident', component: IncidentComponent,
       resolve: {
         siteTypes: SiteTypesResolver,

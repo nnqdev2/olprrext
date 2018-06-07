@@ -1,0 +1,6 @@
+<ul>
+  <li *ngFor="let tab of tabs">
+    <a href="http:localhost:4200/test/#" (click)="selectTab(tab)">{{tab.tabTitle}}</a>
+  </li>
+</ul>
+<ng-content></ng-content>

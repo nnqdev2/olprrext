@@ -1,8 +1,28 @@
-<form [formGroup]="form" (submit)="submit(form.value)">
-  <div *ngFor="let skill of skills.controls; let i=index">
-    <input type="checkbox" [formControl]="skill"/>{{user.skills[i].name}}
-  </div>
-  <button type="submit" [disabled]="!form.valid" >Submit</button>
-</form>
+<h2>Angular 2 Demo: Tabs Component</h2>
 
-{{ form.value | json }}
+<p>This demo shows a tabs component written in ES5 to demonstrate
+how dependency injection can be used to get hold of a parent component.</p>
+
+<p>You can click the titles to select tabs.</p>
+<hr>
+<br>
+
+<app-tabs (selected)="log($event.selectedTab)">
+  <app-tab [tabTitle]="'Title 1'">
+    Content 1
+  </app-tab>
+  <app-tab tabTitle="Title 2">
+    Content 2
+  </app-tab>
+  <app-tab [tabTitle]="'Title 3'">
+    Content 3
+  </app-tab>
+</app-tabs>
+
+<h3>Logs:</h3>
+<ul>
+  <li *ngFor="let log of logs">
+    {{log}}
+  </li>
+</ul>
+<hr>

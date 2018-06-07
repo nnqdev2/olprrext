@@ -18,7 +18,7 @@ import { IncidentComponent } from './incident/incident.component';
 import { httpInterceptorProviders } from './http-interceptors/index';
 import { AppErrorHandler } from './shared/app-error-handler';
 import { ShowAllMessagesComponent } from './show-all-messages/show-all-messages/show-all-messages.component';
-import { TestComponent } from './test/test/test.component';
+
 
 import { IncidentDataService } from './incident/incident-data.service';
 import { LustDataService } from './services/lust-data.service';
@@ -35,6 +35,9 @@ import { StatesResolver } from './states-resolver.service';
 import { StreetTypesResolver } from './street-types-resolver.service';
 import { OlprrReviewSearchFilterComponent } from './olprr-review-search/olprr-review-search-filter/olprr-review-search-filter.component';
 import { OlprrReviewSearchResultComponent } from './olprr-review-search/olprr-review-search-result/olprr-review-search-result.component';
+import { TestComponent } from './test/test/test.component';
+import { TabComponent } from './test/test/tab.component';
+import { TabsComponent } from './test/test/tabs.component';
 
 @NgModule({
   imports: [
@@ -49,9 +52,11 @@ import { OlprrReviewSearchResultComponent } from './olprr-review-search/olprr-re
     IncidentComponent,
     ShowErrorsComponent,
     ShowAllMessagesComponent,
-    TestComponent,
     OlprrReviewSearchFilterComponent,
-    OlprrReviewSearchResultComponent
+    OlprrReviewSearchResultComponent,
+    TestComponent,
+    TabsComponent,
+    TabComponent
   ],
   providers: [
     httpInterceptorProviders,
